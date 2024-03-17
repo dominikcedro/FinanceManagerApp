@@ -2,12 +2,13 @@
 original author: Dominik Cedro
 created: 2024-03-17
 license: GSB 3.0
-description: This module contains classes Expense, Income etc. It is a part of a simple personal python finance app.
+description: This module contains tests for the financial_operations module for my python finance app.
 """
 
 import unittest
-from Source.FinancialOperations.financial_operations import Expense, Income, FinOp
-from Source.Analysis.analysis import Analysis
+from source.operations_module.financial_operations import Expense, Income
+from source.analysis_module.analysis import Analysis
+
 
 class TestFinOp(unittest.TestCase):
     def setUp(self):
@@ -34,6 +35,7 @@ class TestFinOp(unittest.TestCase):
     def test_value_type_check(self):
         with self.assertRaises(ValueError):
             Expense('Rent', '2022-01-01', 'Housing', '1000.0')
+
     def test_value_value_check(self):
         # check if value <= 0 raises an error
         with self.assertRaises(ValueError):

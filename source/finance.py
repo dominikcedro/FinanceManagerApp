@@ -1,4 +1,4 @@
-from Source.FinancialOperations.financial_operations import Expense, Income, Analyze
+from source.operations_module.financial_operations import Expense, Income, Analyze
 program = True
 
 while program:

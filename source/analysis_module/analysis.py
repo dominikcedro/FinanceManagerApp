@@ -2,7 +2,7 @@
 original author: Dominik Cedro
 created: 2024-03-17
 license: GSB 3.0
-description: This module contains classes Analysis. It is a part of a simple personal python finance app.
+description: This module contains classes analysis_module. It is a part of a simple personal python finance app.
 """
 
 
