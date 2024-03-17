@@ -1,5 +1,5 @@
 import unittest
-from main import Expense, Income, Analyze
+from Source.FinancialOperations.main import Expense, Income, Analyze
 
 class TestAnalyze(unittest.TestCase):
     def setUp(self):
