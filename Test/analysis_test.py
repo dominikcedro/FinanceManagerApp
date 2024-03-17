@@ -1,5 +1,12 @@
+"""
+original author: Dominik Cedro
+created: 2024-03-06
+license: GSB 3.0
+description: This module contains classes Expense, Income etc. It is a part of a simple personal python finance app.
+"""
+
 import unittest
-from Source.FinancialOperations.main import Expense, Income, Analyze
+from Source.FinancialOperations.financial_operations import Expense, Income, Analyze
 
 class TestAnalyze(unittest.TestCase):
     def setUp(self):

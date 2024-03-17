@@ -1,45 +1,12 @@
 """
 original author: Dominik Cedro
-created: 2024-03-06
+created: 2024-03-17
 license: GSB 3.0
-description: This module contains classes Expense, Income etc. It is a part of a simple personal python finance app.
+description: This module contains classes Analysis. It is a part of a simple personal python finance app.
 """
 
-# introducing FinOp class
 
-
-class FinOp:
-    def __init__(self, name, date, op_type, category, value):
-        self.name = name
-        self.date = date
-        self.op_type = op_type  # either 'expense' or 'income'
-        self.category = category
-        self.value = value
-
-    def __str__(self):
-        return f'{self.name} - {self.date} - {self.type} - {self.category} - {self.value}'
-
-
-class Expense(FinOp):
-    categories = ['Housing', 'Food', 'Transportation', 'Utilities', 'Insurance',
-                  'Medical', 'Savings', 'Debt', 'Entertainment', 'Miscellaneous']
-
-    def __init__(self, name, date, category, value):
-        if category not in self.categories:
-            raise ValueError('Invalid category')
-        super().__init__(name, date, 'expense', category, value)
-
-
-class Income(FinOp):
-    categories = ['Job', 'Investment', 'Gift', 'Other']
-
-    def __init__(self, name, date, category, value):
-        if category not in self.categories:
-            raise ValueError('Invalid category')
-        super().__init__(name, date, 'income', category, value)
-
-
-class Analyze:
+class Analysis:
     """
     This class represents a collection of expenses and incomes. It has methods to calculate total expenses, total income,
      and total expenses by category.
