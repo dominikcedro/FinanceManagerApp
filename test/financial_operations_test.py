@@ -12,9 +12,9 @@ from source.analysis_module.analysis import Analysis
 
 class TestFinOp(unittest.TestCase):
     def setUp(self):
-        self.exp1 = Expense('Rent', '2022-01-01', 'Housing', 1000.0)
-        self.exp2 = Expense('Groceries', '2022-01-02', 'Food', 200.0)
-        self.inc1 = Income('Salary', '2022-01-01', 'Job', 3000.0)
+        self.exp1 = Expense('Rent', '2022-01-01-00-00', 'Housing', 1000.0)
+        self.exp2 = Expense('Groceries', '2022-01-02-00-00', 'Food', 200.0)
+        self.inc1 = Income('Salary', '2022-01-01-00-00', 'Job', 3000.0)
 
     def test_name_type_check(self):
         with self.assertRaises(ValueError):
@@ -45,8 +45,8 @@ class TestFinOp(unittest.TestCase):
             Expense('Rent', '2022-01-01', 'Housing', -1000.0)
 
     def test_str(self):
-        self.assertEqual(str(self.exp1), 'Rent - 2022-01-01 - expense - Housing - 1000.0')
-        self.assertEqual(str(self.inc1), 'Salary - 2022-01-01 - income - Job - 3000.0')
+        self.assertEqual(str(self.exp1), 'Rent - 2022-01-01 00:00:00 - expense - Housing - 1000.0')
+        self.assertEqual(str(self.inc1), 'Salary - 2022-01-01 00:00:00 - income - Job - 3000.0')
 
 
 

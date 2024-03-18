@@ -21,6 +21,9 @@ class Analysis:
     total_income(): returns the total income
     total_expense_category(category): returns the total expenses for a given category
     total_income_category(category): returns the total income for a given category
+    total_expense_date(start_date, end_date): returns the total expenses for a given date range
+    total_income_date(start_date, end_date): returns the total income for a given date range
+
 
     """
     def __init__(self, expenses, incomes):
