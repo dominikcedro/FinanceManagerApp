@@ -12,9 +12,9 @@ from source.analysis_module.analysis import Analysis
 
 class TestAnalysis(unittest.TestCase):
     def setUp(self):
-        self.exp1 = Expense('Rent', '2022-01-01', 'Housing', 1000.0)
-        self.exp2 = Expense('Groceries', '2022-01-02', 'Food', 200.0)
-        self.inc1 = Income('Salary', '2022-01-01', 'Job', 3000.0)
+        self.exp1 = Expense('Rent', '2022-01-01-12-30', 'Housing', 1000.0)
+        self.exp2 = Expense('Groceries', '2022-01-02-12-30', 'Food', 200.0)
+        self.inc1 = Income('Salary', '2022-01-01-12-30', 'Job', 3000.0)
         self.analysis = Analysis([self.exp1, self.exp2], [self.inc1])
 
     def test_total_expenses(self):
@@ -26,6 +26,16 @@ class TestAnalysis(unittest.TestCase):
     def test_total_expense_category(self):
         self.assertEqual(self.analysis.total_expense_category('Housing'), 1000.0)
 
+    def test_total_income_category(self):
+        self.assertEqual(self.analysis.total_income_category('Job'), 3000.0)
+
+    def test_total_expense_date(self):
+        # should return amount for given date starting from 2022-01-01 to 2022-01-02
+        self.assertEqual(self.analysis.total_expense_date('2022-01-01-00-00', '2022-01-02-23-59'), 1200.0)
+
+    def test_total_income_date(self):
+        # should return amount for given date starting from 2022-01-01 to 2022-01-02
+        self.assertEqual(self.analysis.total_income_date('2022-01-01-00-00', '2022-01-02-23-59'), 3000.0)
 
 if __name__ == '__main__':
     unittest.main()

@@ -4,6 +4,7 @@ created: 2024-03-17
 license: GSB 3.0
 description: This module contains classes analysis_module. It is a part of a simple personal python finance app.
 """
+from datetime import datetime
 
 
 class Analysis:
@@ -46,9 +47,22 @@ class Analysis:
                 sum += income.value
         return sum
 
+    def total_expense_date(self, start_date, end_date):
+        start_date = datetime.strptime(start_date, '%Y-%m-%d-%H-%M')
+        end_date = datetime.strptime(end_date, '%Y-%m-%d-%H-%M')
 
-    #TODO: add a method to calculate total expenses by date
+        sum = 0
+        for expense in self.expenses:
+            if start_date <= expense.date <= end_date:
+                sum += expense.value
+        return sum
 
-    #TODO: add a method to calculate total income by date
+    def total_income_date(self, start_date, end_date):
+        start_date = datetime.strptime(start_date, '%Y-%m-%d-%H-%M')
+        end_date = datetime.strptime(end_date, '%Y-%m-%d-%H-%M')
 
-    #TODO: write unit tests for each method
+        sum = 0
+        for income in self.incomes:
+            if start_date <= income.date <= end_date:
+                sum += income.value
+        return sum

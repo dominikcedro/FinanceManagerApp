@@ -36,7 +36,7 @@ class FinOp:
             raise ValueError('Invalid value')
 
         self.name = name
-        self.date = date
+        self.date = datetime.strptime(date, '%Y-%m-%d-%H-%M')
         self.op_type = op_type  # either 'expense' or 'income'
         self.category = category
         self.value = value
@@ -51,7 +51,7 @@ class FinOp:
 
     """
         try:
-            datetime.strptime(date, '%Y-%m-%d')
+            datetime.strptime(date, '%Y-%m-%d-%H-%M')
             return True
         except ValueError:
             return False
