@@ -37,5 +37,22 @@ class TestAnalysis(unittest.TestCase):
         # should return amount for given date starting from 2022-01-01 to 2022-01-02
         self.assertEqual(self.analysis.total_income_date('2022-01-01-00-00', '2022-01-02-23-59'), 3000.0)
 
+    def test_average_expenses(self):
+        # should return average expenses per month
+        self.assertEqual(self.analysis.average_expense(), 600.0)
+
+    def test_average_income(self):
+        # should return average income per month
+        self.assertEqual(self.analysis.average_income(), 3000.0)
+
+    def test_average_expense_category(self):
+        # should return average expenses for a given category
+        self.assertEqual(self.analysis.average_expense_category('Housing'), 500.0)
+
+    def test_average_income_category(self):
+        # should return average income for a given category
+        self.assertEqual(self.analysis.average_income_category('Job'), 3000.0)
+
+
 if __name__ == '__main__':
     unittest.main()

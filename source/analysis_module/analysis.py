@@ -69,3 +69,16 @@ class Analysis:
             if start_date <= income.date <= end_date:
                 sum += income.value
         return sum
+
+    def average_income(self):
+        return self.total_income() / len(self.incomes)
+
+    def average_expense(self):
+        return self.total_expenses() / len(self.expenses)
+
+    def average_expense_category(self, category):
+        return self.total_expense_category(category) / len(self.expenses)
+
+    def average_income_category(self, category):
+        return self.total_income_category(category) / len(self.incomes)
+
