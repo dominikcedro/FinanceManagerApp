@@ -26,9 +26,11 @@ class Analysis:
 
 
     """
+
     def __init__(self, expenses, incomes):
         self.expenses = expenses # should be a list of expenses (from a single reciept)
         self.incomes = incomes # should be a list of incomes (paychecks, other incomes)
+        self.datetime_format = '%Y-%m-%d-%H-%M'
 
     def total_expenses(self):
         return sum(expense.value for expense in self.expenses)
@@ -51,8 +53,8 @@ class Analysis:
         return sum
 
     def total_expense_date(self, start_date, end_date):
-        start_date = datetime.strptime(start_date, '%Y-%m-%d-%H-%M')
-        end_date = datetime.strptime(end_date, '%Y-%m-%d-%H-%M')
+        start_date = datetime.strptime(start_date, self.datetime_format)
+        end_date = datetime.strptime(end_date, self.datetime_format)
 
         sum = 0
         for expense in self.expenses:
@@ -61,8 +63,8 @@ class Analysis:
         return sum
 
     def total_income_date(self, start_date, end_date):
-        start_date = datetime.strptime(start_date, '%Y-%m-%d-%H-%M')
-        end_date = datetime.strptime(end_date, '%Y-%m-%d-%H-%M')
+        start_date = datetime.strptime(start_date, self.datetime_format)
+        end_date = datetime.strptime(end_date, self.datetime_format)
 
         sum = 0
         for income in self.incomes:
