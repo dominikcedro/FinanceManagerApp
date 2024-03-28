@@ -1,7 +1,7 @@
 """
 original author: Dominik Cedro
 created: 2024-03-06
-license: GSB 3.0
+license: BSL 3.0
 description: This module contains classes Expense, Income etc. It is a part of a simple personal python finance app.
 """
 
@@ -52,6 +52,7 @@ class TestAnalysis(unittest.TestCase):
     def test_average_income_category(self):
         # should return average income for a given category
         self.assertEqual(self.analysis.average_income_category('Job'), 3000.0)
+
 
 
 if __name__ == '__main__':

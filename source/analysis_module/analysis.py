@@ -1,7 +1,7 @@
 """
 original author: Dominik Cedro
 created: 2024-03-17
-license: GSB 3.0
+license: BSL 3.0
 description: This module contains classes analysis_module. It is a part of a simple personal python finance app.
 """
 from datetime import datetime
@@ -28,8 +28,8 @@ class Analysis:
     """
 
     def __init__(self, expenses, incomes):
-        self.expenses = expenses # should be a list of expenses (from a single reciept)
-        self.incomes = incomes # should be a list of incomes (paychecks, other incomes)
+        self.expenses = expenses
+        self.incomes = incomes
         self.datetime_format = '%Y-%m-%d-%H-%M'
 
     def total_expenses(self):
