@@ -27,15 +27,15 @@ class FinOp:
     __str__(): returns a string representation of the object
 
     """
-    def __init__(self, name: str, date: str, op_type: str, category: str, value: float):
+    def __init__(self, name: str, date: str, op_type: str, category, value: float):
         if not isinstance(name, str) or not name:
             raise ValueError('Invalid name')
         if not isinstance(date, str) or not self._valid_date_format(date):
             raise ValueError('Invalid date')
         if not isinstance(op_type, str) or op_type not in ['expense', 'income']:
             raise ValueError('Invalid type')
-        if not isinstance(category, str) or not category:
-            raise ValueError('Invalid category')
+        # if not isinstance(category, str) or not category:
+        #     raise ValueError('Invalid category')
         if not isinstance(value, float) or value <= 0.0:
             raise ValueError('Invalid value')
 
@@ -70,6 +70,9 @@ class Expense(FinOp, Base):
 
     """
     __tablename__ = 'financial_operations'
+    __table_args__ = {'extend_existing': True}
+
+
     id = Column(Integer, primary_key=True)
     name = Column(String(50))
     date = Column(DateTime)
@@ -81,15 +84,15 @@ class Expense(FinOp, Base):
                   'Medical', 'Savings', 'Debt', 'Entertainment', 'Miscellaneous']
 
     def __init__(self, name, date, category, value):
-        if category not in self.categories:
-            raise ValueError('Invalid category')
+        # if category not in self.categories:
+        #     raise ValueError('Invalid category')
         super().__init__(name, date, 'expense', category, value)
 
     def __repr__(self) -> str:
         return f'Expense({self.name}, {self.date}, {self.category}, {self.value})'
 
 
-class Income(FinOp):
+class Income(FinOp, Base):
     """
     This class represents a single income. It is a child class of FinOp.
 
@@ -98,6 +101,9 @@ class Income(FinOp):
 
     """
     __tablename__ = 'financial_operations'
+    __table_args__ = {'extend_existing': True}
+
+
     id = Column(Integer, primary_key=True)
     name = Column(String(50))
     date = Column(DateTime)
@@ -108,8 +114,8 @@ class Income(FinOp):
     categories = ['Job', 'Investment', 'Gift', 'Other']
 
     def __init__(self, name, date, category, value):
-        if category not in self.categories:
-            raise ValueError('Invalid category')
+        # if category not in self.categories:
+        #     raise ValueError('Invalid category')
         super().__init__(name, date, 'income', category, value)
 
     def __repr__(self) -> str:
