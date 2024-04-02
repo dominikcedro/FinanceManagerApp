@@ -1,12 +1,13 @@
 """
 original author: Dominik Cedro
 created: 2024-03-06
-license: BSL 3.0
+license: BSD 3.0
 description: This module contains classes Expense, Income etc. It is a part of a simple personal python finance app.
 """
 
 import unittest
 from source.operations_module.financial_operations import Expense, Income
+from source.operations_module.base import Base
 from source.analysis_module.analysis import Analysis
 
 

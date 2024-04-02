@@ -1,11 +1,15 @@
 """
 original author: Dominik Cedro
 created: 2024-03-06
-license: GSB 3.0
+license: BSD 3.0
 description: This module contains classes Expense, Income etc. It is a part of a simple personal python finance app.
 """
-
+# financial_operations.py
+from sqlalchemy import Column, Integer, String, DateTime, Float, ForeignKey
 from datetime import datetime
+from source.operations_module.base import Base
+from source.operations_module.categories import Categories  # Import the Categories class
+
 
 
 class FinOp:
@@ -57,7 +61,7 @@ class FinOp:
             return False
 
 
-class Expense(FinOp):
+class Expense(FinOp, Base):
     """
     This class represents a single expense. It is a child class of FinOp.
 
@@ -65,6 +69,14 @@ class Expense(FinOp):
     categories: list of str
 
     """
+    __tablename__ = 'financial_operations'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(50))
+    date = Column(DateTime)
+    op_type = Column(String(50))
+    category = Column(Integer, ForeignKey('categories.id'))
+    value = Column(Float)
+
     categories = ['Housing', 'Food', 'Transportation', 'Utilities', 'Insurance',
                   'Medical', 'Savings', 'Debt', 'Entertainment', 'Miscellaneous']
 
@@ -72,6 +84,9 @@ class Expense(FinOp):
         if category not in self.categories:
             raise ValueError('Invalid category')
         super().__init__(name, date, 'expense', category, value)
+
+    def __repr__(self) -> str:
+        return f'Expense({self.name}, {self.date}, {self.category}, {self.value})'
 
 
 class Income(FinOp):
@@ -82,6 +97,14 @@ class Income(FinOp):
     categories: list of str
 
     """
+    __tablename__ = 'financial_operations'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(50))
+    date = Column(DateTime)
+    op_type = Column(String(50))
+    category = Column(Integer, ForeignKey('categories.id'))
+    value = Column(Float)
+
     categories = ['Job', 'Investment', 'Gift', 'Other']
 
     def __init__(self, name, date, category, value):
@@ -89,3 +112,5 @@ class Income(FinOp):
             raise ValueError('Invalid category')
         super().__init__(name, date, 'income', category, value)
 
+    def __repr__(self) -> str:
+        return f'Income({self.name}, {self.date}, {self.category}, {self.value})'

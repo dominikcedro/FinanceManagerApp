@@ -1,7 +1,7 @@
 """
 original author: Dominik Cedro
 created: 2024-03-17
-license: BSL 3.0
+license: BSD 3.0
 description: This module contains classes analysis_module. It is a part of a simple personal python finance app.
 """
 from datetime import datetime
