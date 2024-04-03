@@ -2,19 +2,14 @@
 original author: Dominik Cedro
 created: 2024-03-06
 license: BSD 3.0
-description: This module contains classes Expense, Income etc. It is a part of a simple personal python finance app.
+description: This module contains class FinOP. It is a part of a simple personal python finance app.
 """
-# financial_operations.py
-from sqlalchemy import Column, Integer, String, DateTime, Float, ForeignKey
 from datetime import datetime
-from source.operations_module.base import Base
-from source.operations_module.categories import Categories  # Import the Categories class
-
 
 
 class FinOp:
     """
-    This class represents a single financial operation. It is a parent class for Expense and Income classes.
+    This class represents a single financial operation, either an expense or an income.
 
     ATTRIBUTES:
     name: str
@@ -34,8 +29,8 @@ class FinOp:
             raise ValueError('Invalid date')
         if not isinstance(op_type, str) or op_type not in ['expense', 'income']:
             raise ValueError('Invalid type')
-        # if not isinstance(category, str) or not category:
-        #     raise ValueError('Invalid category')
+        if not isinstance(category, str) or not category:
+            raise ValueError('Invalid category')
         if not isinstance(value, float) or value <= 0.0:
             raise ValueError('Invalid value')
 
@@ -52,71 +47,9 @@ class FinOp:
     def _valid_date_format(date: str):
         """
         This method checks if the date is in the correct format (YYYY-MM-DD).
-
     """
         try:
             datetime.strptime(date, '%Y-%m-%d-%H-%M')
             return True
         except ValueError:
             return False
-
-
-class Expense(FinOp, Base):
-    """
-    This class represents a single expense. It is a child class of FinOp.
-
-    ATTRIBUTES:
-    categories: list of str
-
-    """
-    __tablename__ = 'financial_operations'
-    __table_args__ = {'extend_existing': True}
-
-
-    id = Column(Integer, primary_key=True)
-    name = Column(String(50))
-    date = Column(DateTime)
-    op_type = Column(String(50))
-    category = Column(Integer, ForeignKey('categories.id'))
-    value = Column(Float)
-
-    categories = ['Housing', 'Food', 'Transportation', 'Utilities', 'Insurance',
-                  'Medical', 'Savings', 'Debt', 'Entertainment', 'Miscellaneous']
-
-    def __init__(self, name, date, category, value):
-        # if category not in self.categories:
-        #     raise ValueError('Invalid category')
-        super().__init__(name, date, 'expense', category, value)
-
-    def __repr__(self) -> str:
-        return f'Expense({self.name}, {self.date}, {self.category}, {self.value})'
-
-
-class Income(FinOp, Base):
-    """
-    This class represents a single income. It is a child class of FinOp.
-
-    ATTRIBUTES:
-    categories: list of str
-
-    """
-    __tablename__ = 'financial_operations'
-    __table_args__ = {'extend_existing': True}
-
-
-    id = Column(Integer, primary_key=True)
-    name = Column(String(50))
-    date = Column(DateTime)
-    op_type = Column(String(50))
-    category = Column(Integer, ForeignKey('categories.id'))
-    value = Column(Float)
-
-    categories = ['Job', 'Investment', 'Gift', 'Other']
-
-    def __init__(self, name, date, category, value):
-        # if category not in self.categories:
-        #     raise ValueError('Invalid category')
-        super().__init__(name, date, 'income', category, value)
-
-    def __repr__(self) -> str:
-        return f'Income({self.name}, {self.date}, {self.category}, {self.value})'

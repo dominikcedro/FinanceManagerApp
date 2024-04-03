@@ -12,7 +12,7 @@ from source.operations_module.base import Base
 
 
 
-engine = create_engine('url_to_database')
+engine = create_engine('mySQL+mysqldb://root:Calathea137!@localhost/financedb')
 
 Base.metadata.create_all(bind=engine)
 

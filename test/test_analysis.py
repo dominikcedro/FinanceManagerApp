@@ -6,16 +6,15 @@ description: This module contains classes Expense, Income etc. It is a part of a
 """
 
 import unittest
-from source.operations_module.financial_operations import Expense, Income
-from source.operations_module.base import Base
+from source.operations_module.financial_operations import FinOp
 from source.analysis_module.analysis import Analysis
 
 
 class TestAnalysis(unittest.TestCase):
     def setUp(self):
-        self.exp1 = Expense('Rent', '2022-01-01-12-30', 'Housing', 1000.0)
-        self.exp2 = Expense('Groceries', '2022-01-02-12-30', 'Food', 200.0)
-        self.inc1 = Income('Salary', '2022-01-01-12-30', 'Job', 3000.0)
+        self.exp1 = FinOp('Rent', '2022-01-01-12-30', 'expense', 'Housing', 1000.0)
+        self.exp2 = FinOp('Groceries', '2022-01-02-12-30', 'expense', 'Food', 200.0)
+        self.inc1 = FinOp('Salary', '2022-01-01-12-30', 'income', 'Job', 3000.0)
         self.analysis = Analysis([self.exp1, self.exp2], [self.inc1])
 
     def test_total_expenses(self):
@@ -53,7 +52,6 @@ class TestAnalysis(unittest.TestCase):
     def test_average_income_category(self):
         # should return average income for a given category
         self.assertEqual(self.analysis.average_income_category('Job'), 3000.0)
-
 
 
 if __name__ == '__main__':
