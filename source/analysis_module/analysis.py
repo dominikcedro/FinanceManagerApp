@@ -32,6 +32,7 @@ class Analysis:
         self.incomes = incomes
         self.datetime_format = '%Y-%m-%d-%H-%M'
 
+
     def total_expenses(self):
         return sum(expense.value for expense in self.expenses)
 
