@@ -7,12 +7,13 @@ description: This module contains visalization class for python finance app.
 
 import matplotlib.pyplot as plt
 from source.analysis_module.analysis import Analysis
-from source.operations_module.financial_operations import Expense, Income
+from source.operations_module.financial_operation import FinOp
 
 class Visualization:
 
     def __init__(self, analysis):
         self.analysis = analysis
+
         self.list_of_months = {'January': 1, 'February': 2, 'March': 3, 'April': 4, 'May': 5, 'June': 6,
                           'July': 7, 'August': 8, 'September': 9, 'October': 10, 'November': 11, 'December': 12}
 
@@ -23,6 +24,7 @@ class Visualization:
 
         if month_name not in self.list_of_months:
             raise ValueError('Invalid month')
+
         month = self.list_of_months[month_name]
 
         # Filter expenses for the given month
@@ -37,7 +39,6 @@ class Visualization:
         plt.xlabel('Day of the month')
         plt.ylabel('Total expenses ($)')
         plt.title(f'Total expenses in {month_name}')
-        plt.xticks(range(1, len(days)+1))
         plt.show()
 
     def plot_expenses_month_frequency(self, month_name: str):

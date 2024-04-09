@@ -5,7 +5,7 @@ license: BSD 3.0
 description: This module contains class FinOpModel that provides ORM based on FinOp.
 """
 
-from source.operations_module.financial_operations import FinOp
+from source.operations_module.financial_operation import FinOp
 from sqlalchemy import Column, Integer, String, DateTime, Float, ForeignKey
 from source.database_module.model.base import Base
 

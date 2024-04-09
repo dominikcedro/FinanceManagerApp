@@ -8,10 +8,8 @@ from sqlalchemy import Column, Integer, String
 from source.database_module.model.base import Base
 
 
-
 class Categories(Base):
     __tablename__ = 'categories'
-
 
     id = Column(Integer, primary_key=True)
     name = Column(String(50), unique=True)

@@ -12,7 +12,7 @@ class Analysis:
     This class represents a collection of expenses and incomes. It has methods to calculate total expenses, total income,
      and total expenses by category.
 
-     ATTRIBUTES:
+    ATTRIBUTES:
     expenses: list of Expense objects
     incomes: list of Income objects
 
@@ -23,15 +23,12 @@ class Analysis:
     total_income_category(category): returns the total income for a given category
     total_expense_date(start_date, end_date): returns the total expenses for a given date range
     total_income_date(start_date, end_date): returns the total income for a given date range
-
-
     """
 
     def __init__(self, expenses, incomes):
         self.expenses = expenses
         self.incomes = incomes
-        self.datetime_format = '%Y-%m-%d-%H-%M'
-
+        self.datetime_format = '%Y-%m-%d %H:%M:%S'
 
     def total_expenses(self):
         return sum(expense.value for expense in self.expenses)
@@ -84,4 +81,3 @@ class Analysis:
 
     def average_income_category(self, category):
         return self.total_income_category(category) / len(self.incomes)
-

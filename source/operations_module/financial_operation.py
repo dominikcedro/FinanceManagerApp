@@ -29,13 +29,13 @@ class FinOp:
             raise ValueError('Invalid date')
         if not isinstance(op_type, str) or op_type not in ['expense', 'income']:
             raise ValueError('Invalid type')
-        if not isinstance(category, str) or not category:
-            raise ValueError('Invalid category')
+        # if not isinstance(category, str) or not category:
+        #     raise ValueError('Invalid category')
         if not isinstance(value, float) or value <= 0.0:
             raise ValueError('Invalid value')
 
         self.name = name
-        self.date = datetime.strptime(date, '%Y-%m-%d-%H-%M')
+        self.date = datetime.strptime(date, '%Y-%m-%d %H:%M:%S')
         self.op_type = op_type  # either 'expense' or 'income'
         self.category = category
         self.value = value
@@ -49,7 +49,7 @@ class FinOp:
         This method checks if the date is in the correct format (YYYY-MM-DD).
     """
         try:
-            datetime.strptime(date, '%Y-%m-%d-%H-%M')
+            datetime.strptime(date, '%Y-%m-%d %H:%M:%S')
             return True
         except ValueError:
             return False
