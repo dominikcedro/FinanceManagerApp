@@ -10,7 +10,7 @@ from source.date_time_calc import is_leap_year
 #This extra leap day occurs in each year that is a multiple of 4,
 # except for years evenly divisible by 100 but not by 400.
 
-class TestDateTimeCalc(unittest.TestCase):
+class TestLeapYear(unittest.TestCase):
     def setUp(self):
         self.test_date_list = ["2024-06-01 10:11:11", "2025-06-01 10:11:11",
                                "2000-06-01 10:11:11", "2100-06-01 10:11:11",

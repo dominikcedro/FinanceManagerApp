@@ -13,5 +13,9 @@ def is_leap_year(date: str):
     else:
         return False
 
-def days_in_month(date: str):
-    pass
+def days_in_month(int_month:int,is_leap=bool):
+
+    dict_month = {1:31, 2:28, 3:31, 4:30, 5:31, 6:30, 7:31, 8:31, 9:30, 10:31, 11:30, 12:31}
+    if is_leap:
+        dict_month[2] = 29
+    return dict_month[int_month]
