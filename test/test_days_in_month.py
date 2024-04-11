@@ -26,13 +26,16 @@ class DaysInMonth(unittest.TestCase):
         self.assertEqual(days_in_month(self.test_list[3][0], self.test_list[3][1]), 28)
 
     def test_border_month_0(self):
-        self.assertEqual(days_in_month(self.test_list[4][0], self.test_list[4][1]), ValueError)
+        with self.assertRaises(ValueError):
+            days_in_month(self.test_list[4][0], self.test_list[4][1])
 
     def test_border_month_13(self):
-        self.assertEqual(days_in_month(self.test_list[5][0], self.test_list[5][1]), ValueError)
+        with self.assertRaises(ValueError):
+            days_in_month(self.test_list[5][0], self.test_list[5][1])
 
     def test_type_error_string(self):
-        self.assertEqual(days_in_month(self.test_list[6][0], self.test_list[6][1]), TypeError)
+        with self.assertRaises(TypeError):
+            days_in_month(self.test_list[6][0], self.test_list[6][1])
 
 
 if __name__ == '__main__':

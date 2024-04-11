@@ -8,6 +8,7 @@ description: This module contains visalization class for python finance app.
 import matplotlib.pyplot as plt
 from source.analysis_module.analysis import Analysis
 from source.operations_module.financial_operation import FinOp
+from source.date_time_calc import is_leap_year, days_in_month
 
 class Visualization:
 
@@ -29,17 +30,25 @@ class Visualization:
 
         # Filter expenses for the given month
         expenses_in_month = [expense for expense in self.analysis.expenses if expense.date.month == month]
-
-        # Extract day and value for each expense in the month
-        days = [expense.date.day for expense in expenses_in_month]
         values = [expense.value for expense in expenses_in_month]
+        days = [expense.date.day for expense in expenses_in_month]
+
+        # I will get the days from my functions based on datetime year
+        year = expenses_in_month[0].date.year
+        max_days = days_in_month(self.list_of_months[month_name],is_leap_year(year))
+
+
 
         plt.figure(figsize=(10, 5))
         plt.bar(days, values)
         plt.xlabel('Day of the month')
         plt.ylabel('Total expenses ($)')
         plt.title(f'Total expenses in {month_name}')
+        plt.xlim(0, max_days+1)  # Set the limits of the x-axis
+        plt.xticks(range(1, max_days + 1))  # Set x-axis ticks to be every day of the month
+
         plt.show()
+        # DZIALA
 
     def plot_expenses_month_frequency(self, month_name: str):
 

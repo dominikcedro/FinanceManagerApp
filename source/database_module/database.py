@@ -21,12 +21,13 @@ database_name = 'financedb'
 
 engine = create_engine(f'mysql://{username}:{password}@{host}/{database_name}')
 
+
 Base.metadata.create_all(bind=engine)
 Session = sessionmaker(bind=engine)
 session = Session()
 
 
-# cat1 = Categories(id=1,name='Housing', description='Housing expenses')
+# cat1 = Categories(id=1, name='Housing', description='Housing expenses')
 # cat2 = Categories(id=2, name='groceries', description='Food expenses')
 # cat3 = Categories(id=3, name='work', description='Salary')
 
