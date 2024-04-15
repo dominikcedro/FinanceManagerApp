@@ -17,9 +17,11 @@ def is_leap_year(year):
 
 def days_in_month(int_month:int,is_leap:bool):
     if not isinstance(int_month, int):
-        raise ValueError('Invalid month integer')
+        raise TypeError('Invalid month integer')
     if not isinstance(is_leap, bool):
         raise ValueError('Invalid is_leap')
+    if int_month < 1 or int_month > 12:
+        raise ValueError('Month integer must be lower than 12, higher than 0')
 
     dict_month = {1: 31, 2: 28, 3: 31, 4: 30, 5: 31, 6: 30,
                   7: 31, 8: 31, 9: 30, 10: 31, 11: 0, 12: 31}

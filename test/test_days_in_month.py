@@ -7,12 +7,21 @@ description: This module contains tests for date_time_calc.py script
 import unittest
 
 from source.date_time_calc import days_in_month
-
 class DaysInMonth(unittest.TestCase):
+    JANUARY = 1
+    FEBRUARY = 2
+    INVALID_MONTH_LOW = 0
+    INVALID_MONTH_HIGH = 13
+    INVALID_MONTH_STRING = "March"
+    LEAP_YEAR = True
+    NON_LEAP_YEAR = False
+
     def setUp(self):
-        self.test_list = [(1, True), (1, False), (2, True),
-                          (2, False), (0, True), (13, True),
-                          ("March", True)]
+        self.test_list = [(self.JANUARY, self.LEAP_YEAR), (self.JANUARY, self.NON_LEAP_YEAR),
+                          (self.FEBRUARY, self.LEAP_YEAR), (self.FEBRUARY, self.NON_LEAP_YEAR),
+                          (self.INVALID_MONTH_LOW, self.LEAP_YEAR), (self.INVALID_MONTH_HIGH, self.LEAP_YEAR),
+                          (self.INVALID_MONTH_STRING, self.LEAP_YEAR)]
+
     def test_january(self):
         self.assertEqual(days_in_month(self.test_list[0][0],self.test_list[0][1]), 31)
 

@@ -14,10 +14,15 @@ license: BSD 3.0
 description: This module contains tests for my leap year function
 """
 class TestLeapYear(unittest.TestCase):
+    AVERAGE_LEAP_YEAR = 2024
+    AVERAGE_NON_LEAP_YEAR = 2025
+    LEAP_YEAR_DIVISIBLE_BY_400 = 2000
+    NON_LEAP_YEAR_DIVISIBLE_BY_100 = 2100
+
     def setUp(self):
-        self.test_date_list = ["2024-06-01 10:11:11", "2025-06-01 10:11:11",
-                               "2000-06-01 10:11:11", "2100-06-01 10:11:11",
-                               "20241-06-10 10:10:11"]
+        self.test_date_list = [self.AVERAGE_LEAP_YEAR, self.AVERAGE_NON_LEAP_YEAR,
+                               self.LEAP_YEAR_DIVISIBLE_BY_400, self.NON_LEAP_YEAR_DIVISIBLE_BY_100]
+
     def test_positive_leap_average(self):
         self.assertEqual(is_leap_year(self.test_date_list[0]), True)
 
@@ -29,8 +34,6 @@ class TestLeapYear(unittest.TestCase):
 
     def test_negative_leap_100(self):
         self.assertEqual(is_leap_year(self.test_date_list[3]), False)
-
-
 
 
 if __name__ == '__main__':

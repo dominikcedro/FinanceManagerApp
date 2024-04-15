@@ -9,6 +9,13 @@ from source.operations_module.financial_operation import FinOp
 
 
 class TestFinOp(unittest.TestCase):
+
+    INCORRECT_TYPE = 1
+    INCORRECT_DATE = 2
+    INCORRECT_OP_TYPE = 1.0
+    INCORRECT_VALUE = "1.0"
+    VALUE_EQUAL_ZERO = 0.0
+    VALUE_SMALLER_ZERO = -100.0
     def setUp(self):
         self.exp1 = FinOp('Rent', '2022-01-01 00:00:00', 'expense', 'Housing', 1000.0)
         self.exp2 = FinOp('Groceries', '2022-01-02 00:00:00', 'expense', 'Food', 200.0)
@@ -16,15 +23,15 @@ class TestFinOp(unittest.TestCase):
 
     def test_name_type_check(self):
         with self.assertRaises(ValueError):
-            FinOp(1, '2022-01-01 00:00:00', 'expense', 'Housing', 1000.0)
+            FinOp(self.INCORRECT_TYPE, '2022-01-01 00:00:00', 'expense', 'Housing', 1000.0)
 
     def test_date_type_check(self):
         with self.assertRaises(ValueError):
-            FinOp("Rent", 2, 'expense', 'Housing', 1000.0)
+            FinOp("Rent", self.INCORRECT_DATE, 'expense', 'Housing', 1000.0)
 
     def test_op_type_type_check(self):
         with self.assertRaises(ValueError):
-            FinOp('Rent', '2022-01-01 00:00:00', 1.0, 'Housing', 1000.0)
+            FinOp('Rent', '2022-01-01 00:00:00', self.INCORRECT_OP_TYPE, 'Housing', 1000.0)
 
     # def test_category_type_check(self):
     #     with self.assertRaises(ValueError):
@@ -32,14 +39,13 @@ class TestFinOp(unittest.TestCase):
 
     def test_value_type_check(self):
         with self.assertRaises(ValueError):
-            FinOp('Rent', '2022-01-01 00:00:00', 'expense', 'Housing', "00")
+            FinOp('Rent', '2022-01-01 00:00:00', 'expense', 'Housing', self.INCORRECT_VALUE)
 
     def test_value_value_check(self):
-        # check if value <= 0 raises an error
         with self.assertRaises(ValueError):
-            FinOp('Rent', '2022-01-01 00:00:00', 'expense', 'Housing', 0.0)        # check if value <= 0 raises an error
+            FinOp('Rent', '2022-01-01 00:00:00', 'expense', 'Housing', self.VALUE_EQUAL_ZERO)
         with self.assertRaises(ValueError):
-            FinOp('Rent', '2022-01-01 00:00:00', 'expense', 'Housing', -1000.0)
+            FinOp('Rent', '2022-01-01 00:00:00', 'expense', 'Housing', self.VALUE_SMALLER_ZERO)
 
     def test_str(self):
         self.assertEqual(str(self.exp1), 'Rent - 2022-01-01 00:00:00 - expense - Housing - 1000.0')
