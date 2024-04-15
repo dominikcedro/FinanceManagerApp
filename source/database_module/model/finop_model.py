@@ -8,6 +8,8 @@ description: This module contains class FinOpModel that provides ORM based on Fi
 from source.operations_module.financial_operation import FinOp
 from sqlalchemy import Column, Integer, String, DateTime, Float, ForeignKey
 from source.database_module.model.base import Base
+from sqlalchemy.orm import relationship
+
 
 
 class FinOpModel(Base):
@@ -20,7 +22,9 @@ class FinOpModel(Base):
     name = Column(String(50))
     date = Column(DateTime)
     op_type = Column(String(50))
-    category = Column(Integer, ForeignKey('categories.id'))
+    category_id = Column(Integer, ForeignKey('categories.id'))
+    category = relationship("Categories", back_populates="financial_operations")
+
     value = Column(Float)
 
     def __init__(self, finop: FinOp):
