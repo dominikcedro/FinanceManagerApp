@@ -1,6 +1,9 @@
-# the whole idea is, if you input 2024-01.01 10:10:10 it
-# should tell which year is it (leap or not) and provoide you with
-# days that february will have
+"""
+original author: Dominik Cedro
+created: 2024-04-11
+license: BSD 3.0
+description: This module contains my leap year handling logic
+"""
 from datetime import datetime
 def is_leap_year(year):
     if year % 400 == 0:
@@ -12,12 +15,11 @@ def is_leap_year(year):
     else:
         return False
 
-def days_in_month(int_month:int,is_leap=bool):
+def days_in_month(int_month:int,is_leap:bool):
     if not isinstance(int_month, int):
         raise ValueError('Invalid month integer')
     if not isinstance(is_leap, bool):
         raise ValueError('Invalid is_leap')
-
 
     dict_month = {1: 31, 2: 28, 3: 31, 4: 30, 5: 31, 6: 30,
                   7: 31, 8: 31, 9: 30, 10: 31, 11: 0, 12: 31}

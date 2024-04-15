@@ -6,6 +6,7 @@ description: This module contains class FinOP. It is a part of a simple personal
 """
 from datetime import datetime
 
+DATETIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
 class FinOp:
     """
@@ -35,7 +36,7 @@ class FinOp:
             raise ValueError('Invalid value')
 
         self.name = name
-        self.date = datetime.strptime(date, '%Y-%m-%d %H:%M:%S')
+        self.date = datetime.strptime(date, DATETIME_FORMAT)
         self.op_type = op_type  # either 'expense' or 'income'
         self.category = category
         self.value = value
@@ -49,7 +50,7 @@ class FinOp:
         This method checks if the date is in the correct format (YYYY-MM-DD).
     """
         try:
-            datetime.strptime(date, '%Y-%m-%d %H:%M:%S')
+            datetime.strptime(date, DATETIME_FORMAT)
             return True
         except ValueError:
             return False

@@ -6,6 +6,7 @@ description: This module contains classes analysis_module. It is a part of a sim
 """
 from datetime import datetime
 
+DATETIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
 class Analysis:
     """
@@ -28,7 +29,7 @@ class Analysis:
     def __init__(self, expenses, incomes):
         self.expenses = expenses
         self.incomes = incomes
-        self.datetime_format = '%Y-%m-%d %H:%M:%S'
+        self.datetime_format = DATETIME_FORMAT
 
     def total_expenses(self):
         return sum(expense.value for expense in self.expenses)

@@ -7,9 +7,12 @@ description: This module contains tests for date_time_calc.py script
 import unittest
 
 from source.date_time_calc import is_leap_year
-#This extra leap day occurs in each year that is a multiple of 4,
-# except for years evenly divisible by 100 but not by 400.
-
+"""
+original author: Dominik Cedro
+created: 2024-04-11
+license: BSD 3.0
+description: This module contains tests for my leap year function
+"""
 class TestLeapYear(unittest.TestCase):
     def setUp(self):
         self.test_date_list = ["2024-06-01 10:11:11", "2025-06-01 10:11:11",

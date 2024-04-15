@@ -10,6 +10,7 @@ from source.analysis_module.analysis import Analysis
 from source.operations_module.financial_operation import FinOp
 from source.date_time_calc import is_leap_year, days_in_month
 
+
 class Visualization:
 
     def __init__(self, analysis):
@@ -44,11 +45,10 @@ class Visualization:
         plt.xlabel('Day of the month')
         plt.ylabel('Total expenses ($)')
         plt.title(f'Total expenses in {month_name}')
-        plt.xlim(0, max_days+1)  # Set the limits of the x-axis
-        plt.xticks(range(1, max_days + 1))  # Set x-axis ticks to be every day of the month
+        plt.xlim(0, max_days+1)
+        plt.xticks(range(1, max_days + 1))
 
         plt.show()
-        # DZIALA
 
     def plot_expenses_month_frequency(self, month_name: str):
 
