@@ -19,13 +19,11 @@ class Visualization:
         self.list_of_months = {'January': 1, 'February': 2, 'March': 3, 'April': 4, 'May': 5, 'June': 6,
                                'July': 7, 'August': 8, 'September': 9, 'October': 10, 'November': 11, 'December': 12}
 
-    # TODO plot total expenses in given month (amount in frequency)
-    # TODO plot expenses by category in a given month
-    # TODO same for incomes
     def plot_total_expenses_month(self, month_name: str):
 
         if month_name not in self.list_of_months:
             raise ValueError('Invalid month')
+
 
         month = self.list_of_months[month_name]
 
@@ -47,6 +45,7 @@ class Visualization:
         plt.xticks(range(1, max_days + 1))
 
         plt.show()
+        return None
 
     def plot_expenses_month_frequency(self, month_name: str):
 

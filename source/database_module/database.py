@@ -30,17 +30,17 @@ Session = sessionmaker(bind=engine)
 session = Session()
 
 
-cat1 = Categories(id=1, name='Housing', description='Housing expenses')
-cat2 = Categories(id=2, name='groceries', description='Food expenses')
-cat3 = Categories(id=3, name='work', description='Salary')
-
-exp1 = FinOpModel(FinOp(name='Rent', date='2024-03-04 01:00:00', op_type='expense', category=cat1, value=1000.0))
-exp2 = FinOpModel(FinOp(name='Food', date='2024-03-05 01:00:00', op_type='expense', category=cat2, value=200.0))
-inc1 = FinOpModel(FinOp(name='Salary', date='2024-03-06 02:00:00', op_type='income', category=cat3, value=3000.0))
-# model them
-cat2 = session.query(Categories).get(2)
-
-exp4 = FinOpModel(FinOp(name='Food_more', date='2024-03-05 01:00:00', op_type='expense', category=cat2, value=200.0))
+# cat1 = Categories(id=1, name='Housing', description='Housing expenses')
+# cat2 = Categories(id=2, name='groceries', description='Food expenses')
+# cat3 = Categories(id=3, name='work', description='Salary')
+#
+# exp1 = FinOpModel(FinOp(name='Rent', date='2024-03-04 01:00:00', op_type='expense', category=cat1, value=1000.0))
+# exp2 = FinOpModel(FinOp(name='Food', date='2024-03-05 01:00:00', op_type='expense', category=cat2, value=200.0))
+# inc1 = FinOpModel(FinOp(name='Salary', date='2024-03-06 02:00:00', op_type='income', category=cat3, value=3000.0))
+# # model them
+# # cat2 = session.query(Categories).get(2)
+#
+# exp4 = FinOpModel(FinOp(name='Food_more', date='2024-03-05 01:00:00', op_type='expense', category=cat2, value=200.0))
 
 
 # session.add(cat1)
@@ -51,8 +51,8 @@ exp4 = FinOpModel(FinOp(name='Food_more', date='2024-03-05 01:00:00', op_type='e
 # session.add(exp2)
 # session.add(inc1)
 
-session.add(exp4)
-session.merge(cat2)
+# session.add(exp4)
+# session.merge(cat2)
 
 session.commit()
 
@@ -74,10 +74,10 @@ query2 = session.query(FinOpModel).filter(FinOpModel.op_type== inc)
 expenses = query1.all()
 incomes = query2.all()
 
-for entity in expenses:
-    print(entity)
-for entity in incomes:
-    print(entity)
+# for entity in expenses:
+#     print(entity)
+# for entity in incomes:
+#     print(entity)
 
 # test analysis - total exp
 Test_analysis = Analysis(expenses, incomes)
@@ -96,6 +96,10 @@ query = session.query(FinOpModel).options(joinedload(FinOpModel.category))
 results = query.all()
 
 # Print the name of the category for each result
-for result in results:
-    print(result.category.name)
+# for result in results:
+#     print(result.category.name)
 
+from source.visualization_module.visualization import Visualization
+analysis = Analysis(expenses, [])
+visualization = Visualization(analysis)
+visualization.plot_total_expenses_month('January')
