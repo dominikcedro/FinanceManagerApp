@@ -11,7 +11,6 @@ from source.database_module.model.base import Base
 from sqlalchemy.orm import relationship
 
 
-
 class FinOpModel(Base):
     """
     This class represents a single financial operation, either an expense or an income mapped to ORM.

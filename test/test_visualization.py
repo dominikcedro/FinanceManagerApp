@@ -2,25 +2,14 @@
 original author: Dominik Cedro
 created: 2024-04-15
 license: BSD 3.0
-description: This module contains visalization class tests
+description: This module contains visualization class tests
 """
 
-# what should be done by the class
-
-# border cases :
-# no incomes/expenses for said month
-# month doesnt exist
-# maybe incorrect month name
-
-# average cases:
-#
-#
-#
-#
 import unittest
 from source.operations_module.financial_operation import FinOp
 from source.analysis_module.analysis import Analysis
 from source.visualization_module.visualization import Visualization
+
 
 class TestFinOp(unittest.TestCase):
 
@@ -34,7 +23,7 @@ class TestFinOp(unittest.TestCase):
         self.exp1 = FinOp('Rent', '2022-01-01 00:00:00', 'expense', 'Housing', 1000.0)
         self.exp2 = FinOp('Groceries', '2022-01-02 00:00:00', 'expense', 'Food', 200.0)
         self.inc1 = FinOp('Salary', '2022-01-01 00:00:00', 'income', 'Job', 3000.0)
-        self.analysis = Analysis([self.exp1,self.exp2], [self.inc1])
+        self.analysis = Analysis([self.exp1, self.exp2], [self.inc1])
 
     def test_correct_month_name(self):
         visualization = Visualization(self.analysis)

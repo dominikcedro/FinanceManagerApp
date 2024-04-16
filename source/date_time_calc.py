@@ -4,7 +4,8 @@ created: 2024-04-11
 license: BSD 3.0
 description: This module contains my leap year handling logic
 """
-from datetime import datetime
+
+
 def is_leap_year(year):
     if year % 400 == 0:
         return True
@@ -15,7 +16,8 @@ def is_leap_year(year):
     else:
         return False
 
-def days_in_month(int_month:int,is_leap:bool):
+
+def days_in_month(int_month: int, is_leap: bool):
     if not isinstance(int_month, int):
         raise TypeError('Invalid month integer')
     if not isinstance(is_leap, bool):

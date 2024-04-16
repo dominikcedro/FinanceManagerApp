@@ -16,6 +16,7 @@ class TestFinOp(unittest.TestCase):
     INCORRECT_VALUE = "1.0"
     VALUE_EQUAL_ZERO = 0.0
     VALUE_SMALLER_ZERO = -100.0
+
     def setUp(self):
         self.exp1 = FinOp('Rent', '2022-01-01 00:00:00', 'expense', 'Housing', 1000.0)
         self.exp2 = FinOp('Groceries', '2022-01-02 00:00:00', 'expense', 'Food', 200.0)

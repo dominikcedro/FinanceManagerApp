@@ -7,6 +7,8 @@ description: This module contains classes Expense, Income etc. It is a part of a
 import unittest
 from source.operations_module.financial_operation import FinOp
 from source.analysis_module.analysis import Analysis
+import matplotlib
+matplotlib.use('Agg')
 
 class TestAnalysis(unittest.TestCase):
     EXPENSE_TYPE = 'expense'

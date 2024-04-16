@@ -24,7 +24,6 @@ class Visualization:
         if month_name not in self.list_of_months:
             raise ValueError('Invalid month')
 
-
         month = self.list_of_months[month_name]
 
         # Filter expenses for the given month
