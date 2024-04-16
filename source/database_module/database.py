@@ -99,7 +99,7 @@ results = query.all()
 # for result in results:
 #     print(result.category.name)
 
-from source.visualization_module.visualization import Visualization
-analysis = Analysis(expenses, [])
-visualization = Visualization(analysis)
-visualization.plot_total_expenses_month('January')
+# from source.visualization_module.visualization import Visualization
+# analysis = Analysis(expenses, [])
+# visualization = Visualization(analysis)
+# visualization.plot_total_expenses_month('January')

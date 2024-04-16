@@ -13,11 +13,10 @@ from source.visualization_module.visualization import Visualization
 
 class TestFinOp(unittest.TestCase):
 
-    # place for constants
     CORRECT_MONTH_NAME = "January"
     INCORRECT_MONTH_NAME = "Januarary"
     INCORRECT_MONTH_TYPE = 1
-    MONTH_WITH_NO_INCOMES = "March"
+    MONTH_WITH_NO_INCOMES = "March" # this is based on setUp exp1, exp2, inc1 where all takes place in january
 
     def setUp(self):
         self.exp1 = FinOp('Rent', '2022-01-01 00:00:00', 'expense', 'Housing', 1000.0)
