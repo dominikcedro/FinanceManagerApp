@@ -28,6 +28,8 @@ class Visualization:
 
         # Filter expenses for the given month
         expenses_in_month = [expense for expense in self.analysis.expenses if expense.date.month == month]
+        # if month is empty just return message "empty", not error
+
         values = [expense.value for expense in expenses_in_month]
         days = [expense.date.day for expense in expenses_in_month]
 
