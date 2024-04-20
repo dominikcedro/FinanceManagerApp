@@ -6,14 +6,14 @@ description: This module contains database_module initialization script using sq
 """
 import json
 from sqlalchemy import create_engine
-from source.database_module.model.base import Base
-from source.operations_module.financial_operation import FinOp
-from source.database_module.model.finop_model import FinOpModel
-from source.database_module.model.categories import Categories
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy import select
-from source.analysis_module.analysis import Analysis
 from sqlalchemy import and_
+
+from .model.base import Base
+from .model.finop_model import FinOpModel
+from .model.categories import Categories
+from ..analysis_module.analysis import Analysis
+
 
 
 
