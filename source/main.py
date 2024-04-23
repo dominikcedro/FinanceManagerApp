@@ -40,8 +40,10 @@ def main():
     # Analyze average total by category
     analyze_cat_parser = subparsers.add_parser('analyze_by_category', help='Analyze by cateogry all expenses and incomes')
     analyze_cat_parser.add_argument('analyze_category', type=str, help='blabla')
+
     # Visualize command
     visualize_parser = subparsers.add_parser('visualize', help='Visualize the current database status')
+    visualize_parser.add_argument('visualize_month', type=str, help='month to visualize data')
 
     args = parser.parse_args()
 
@@ -76,16 +78,32 @@ def main():
             session.close()
 
     elif args.command == 'analyze_by_category':
-        expenses = session.query(FinOpModel).filter(FinOpModel.op_type == 'expense')
-        incomes = session.query(FinOpModel).filter(FinOpModel.op_type == 'income')
-        analysis = Analysis(expenses, incomes)
-        chosen_category = args.analyze_category
-        print(f'total of all expenses for category {chosen_category} : {analysis.total_expense_category(chosen_category)}')
-        print(f'average of all expenses {chosen_category} :{analysis.average_expense_category(chosen_category)}')
-        print(f'total of all incomes {chosen_category} :{analysis.total_income_category(chosen_category)}')
-        print(f'average of all incomes {chosen_category} :{analysis.average_income_category(chosen_category)}')
-        session.commit()
-        session.close()
+        with session() as session:
+            expenses = session.query(FinOpModel).filter(FinOpModel.op_type == 'expense')
+            incomes = session.query(FinOpModel).filter(FinOpModel.op_type == 'income')
+            exp_list = expenses.all()
+            inc_list = incomes.all()
+            analysis = Analysis(exp_list, inc_list)
+            chosen_category = args.analyze_category
+            print(f'total of all expenses for category {chosen_category} : {analysis.total_expense_category(chosen_category)}')
+            print(f'average of all expenses {chosen_category} :{analysis.average_expense_category(chosen_category)}')
+            print(f'total of all incomes {chosen_category} :{analysis.total_income_category(chosen_category)}')
+            print(f'average of all incomes {chosen_category} :{analysis.average_income_category(chosen_category)}')
+            session.commit()
+            session.close()
+
+    elif args.command == 'visualize':
+        with session() as session:
+            expenses = session.query(FinOpModel).filter(FinOpModel.op_type == 'expense')
+            incomes = session.query(FinOpModel).filter(FinOpModel.op_type == 'income')
+            exp_list = expenses.all()
+            inc_list = incomes.all()
+            analysis = Analysis(exp_list, inc_list)
+            chosen_month = args.visualize_month
+            Visualization(analysis).plot_total_expenses_month(chosen_month)
+
+            session.commit()
+            session.close()
 
 if __name__ == "__main__":
     main()
