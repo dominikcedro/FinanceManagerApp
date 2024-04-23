@@ -30,9 +30,16 @@ def main():
     add_cat_parser.add_argument('name_cat', type=str, help='Name of the category')
     add_cat_parser.add_argument('description_cat', type=str, help='Description of the category')
 
-    # Analyze command
-    analyze_parser = subparsers.add_parser('analyze', help='Analyze the current database status')
+    # Analyze average total (avgtot) command
+    analyze_parser = subparsers.add_parser('analyze_avgtot', help='Analyze the current database status')
+    # analyze_parser.add_argument('month to analyze', type=str,help='month that will be analyzed')
+    # analyze_parser.add_argument('analyze_operation', type=str, help='what kind of analysis to perform')
+    # analyze_parser.add_argument('analyze_type', type=str, help='nobody reads that')
 
+
+    # Analyze average total by category
+    analyze_cat_parser = subparsers.add_parser('analyze_by_category', help='Analyze by cateogry all expenses and incomes')
+    analyze_cat_parser.add_argument('analyze_category', type=str, help='blabla')
     # Visualize command
     visualize_parser = subparsers.add_parser('visualize', help='Visualize the current database status')
 
@@ -43,8 +50,8 @@ def main():
     if args.command == 'add_op':
         with session() as session:
             category = session.query(Categories).filter(Categories.name == args.category).first()
-            new_expense = FinOpModel(FinOp(args.name, args.date, args.op_type, category, args.value))
-            session.add(new_expense)
+            new_operation = FinOpModel(FinOp(args.name_op, args.date, args.op_type, category, args.value))
+            session.add(new_operation)
             session.commit()
             session.close()
     elif args.command == 'add_cat':
@@ -53,12 +60,32 @@ def main():
             session.add(new_category)
             session.commit()
             session.close()
-        # Add your analysis code here
-        pass
-    elif args.command == 'visualize':
-        # Add your visualization code here
-        pass
 
+    elif args.command == 'analyze_avgtot':
+        with session() as session:
+            expenses = session.query(FinOpModel).filter(FinOpModel.op_type == 'expense')
+            incomes = session.query(FinOpModel).filter(FinOpModel.op_type == 'income')
+            exp_list = expenses.all()
+            inc_list = incomes.all()
+            analysis = Analysis(exp_list, inc_list)
+            print(f'total of all expenses {analysis.total_expenses()}')
+            print(f'average of all expenses {analysis.average_expense()}')
+            print(f'total of all incomes {analysis.total_income()}')
+            print(f'average of all incomes {analysis.average_income()}')
+            session.commit()
+            session.close()
+
+    elif args.command == 'analyze_by_category':
+        expenses = session.query(FinOpModel).filter(FinOpModel.op_type == 'expense')
+        incomes = session.query(FinOpModel).filter(FinOpModel.op_type == 'income')
+        analysis = Analysis(expenses, incomes)
+        chosen_category = args.analyze_category
+        print(f'total of all expenses for category {chosen_category} : {analysis.total_expense_category(chosen_category)}')
+        print(f'average of all expenses {chosen_category} :{analysis.average_expense_category(chosen_category)}')
+        print(f'total of all incomes {chosen_category} :{analysis.total_income_category(chosen_category)}')
+        print(f'average of all incomes {chosen_category} :{analysis.average_income_category(chosen_category)}')
+        session.commit()
+        session.close()
 
 if __name__ == "__main__":
     main()
