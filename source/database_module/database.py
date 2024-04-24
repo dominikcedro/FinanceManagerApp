@@ -4,6 +4,8 @@ created: 2024-04-02
 license: GSB 3.0
 description: This module contains database_module initialization script using sqlalchemy.
 """
+import os
+
 import json
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -17,10 +19,15 @@ from ..analysis_module.analysis import Analysis
 
 
 
-def setup_connection_db():
 
-    with open('C:/Users\Domin\PycharmProjects\FinanceManager\source\database_module\database_config.json') as f:
-        # what about here, this dir will change?
+def setup_connection_db():
+    # Get the directory of the current script
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+
+    # Construct the path to the database_config.json file
+    config_path = os.path.join(dir_path, 'database_config.json')
+
+    with open(config_path) as f:
         config = json.load(f)
     username = config['username']
     password = config['password']

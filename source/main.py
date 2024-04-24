@@ -107,6 +107,10 @@ def main():
 
             session.commit()
             session.close()
+    # elif args.command == 'get_all_cat':
+    #     with session() as session:
+    #         categories = session.query(Categories)
+    #         list_of_categories = query.all
     elif args.command == 'test':
         with session() as session:
             session.commit()
