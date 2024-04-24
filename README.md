@@ -23,6 +23,8 @@ This app is run through argsparser module. It should be run as a module through 
 * python -m source.main visualize "April" (this command shows basic graph of expenses in set month
 * python  -m source.main add_op "Operation Name" "2024-04-20 12:00:01" "income" "Groceries" 100.0 (add a new operation)
 * python -m source.main add_cat "Technology" "purchases or incomes related to technology" (add new category)
+
+Note! If program is run from outside 'FinanceManager' directory full path should be provided in place of 'source.main'
   
 currently avaible categories: Technology, Clothing, Food
 original author: Dominik Marcel Cedro  
