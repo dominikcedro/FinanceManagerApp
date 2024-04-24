@@ -17,6 +17,9 @@ def main():
 
     subparsers = parser.add_subparsers(dest="command")
 
+    test_parser = subparsers.add_parser('test', help='testing parser if connection is correct')
+
+
     # Add financial operation command
     add_parser = subparsers.add_parser('add_op', help='Add a new financial operation to the database')
     add_parser.add_argument('name_op', type=str, help='Name of the operation')
@@ -104,6 +107,11 @@ def main():
 
             session.commit()
             session.close()
+    elif args.command == 'test':
+        with session() as session:
+            session.commit()
+            session.close()
+            print("test successful, connection correct")
 
 if __name__ == "__main__":
     main()
