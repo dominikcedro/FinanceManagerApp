@@ -1,18 +1,19 @@
 """
 original author: Dominik Cedro
 created: 2024-03-17
-license: GSB 3.0
+license: BSD 3.0
 description: This module contains classes analysis_module. It is a part of a simple personal python finance app.
 """
 from datetime import datetime
 
+DATETIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
 class Analysis:
     """
     This class represents a collection of expenses and incomes. It has methods to calculate total expenses, total income,
      and total expenses by category.
 
-     ATTRIBUTES:
+    ATTRIBUTES:
     expenses: list of Expense objects
     incomes: list of Income objects
 
@@ -23,12 +24,12 @@ class Analysis:
     total_income_category(category): returns the total income for a given category
     total_expense_date(start_date, end_date): returns the total expenses for a given date range
     total_income_date(start_date, end_date): returns the total income for a given date range
-
-
     """
+
     def __init__(self, expenses, incomes):
-        self.expenses = expenses # should be a list of expenses (from a single reciept)
-        self.incomes = incomes # should be a list of incomes (paychecks, other incomes)
+        self.expenses = expenses
+        self.incomes = incomes
+        self.datetime_format = DATETIME_FORMAT
 
     def total_expenses(self):
         return sum(expense.value for expense in self.expenses)
@@ -39,7 +40,7 @@ class Analysis:
     def total_expense_category(self, category):
         sum = 0
         for expense in self.expenses:
-            if expense.category == category:
+            if expense.category.name == category:
                 sum += expense.value
         return sum
 
@@ -51,8 +52,8 @@ class Analysis:
         return sum
 
     def total_expense_date(self, start_date, end_date):
-        start_date = datetime.strptime(start_date, '%Y-%m-%d-%H-%M')
-        end_date = datetime.strptime(end_date, '%Y-%m-%d-%H-%M')
+        start_date = datetime.strptime(start_date, self.datetime_format)
+        end_date = datetime.strptime(end_date, self.datetime_format)
 
         sum = 0
         for expense in self.expenses:
@@ -61,8 +62,8 @@ class Analysis:
         return sum
 
     def total_income_date(self, start_date, end_date):
-        start_date = datetime.strptime(start_date, '%Y-%m-%d-%H-%M')
-        end_date = datetime.strptime(end_date, '%Y-%m-%d-%H-%M')
+        start_date = datetime.strptime(start_date, self.datetime_format)
+        end_date = datetime.strptime(end_date, self.datetime_format)
 
         sum = 0
         for income in self.incomes:
@@ -81,4 +82,3 @@ class Analysis:
 
     def average_income_category(self, category):
         return self.total_income_category(category) / len(self.incomes)
-
