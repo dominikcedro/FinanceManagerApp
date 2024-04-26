@@ -19,6 +19,43 @@ class Visualization:
         self.list_of_months = {'January': 1, 'February': 2, 'March': 3, 'April': 4, 'May': 5, 'June': 6,
                                'July': 7, 'August': 8, 'September': 9, 'October': 10, 'November': 11, 'December': 12}
 
+    def plot_total_expenses_and_incomes_month(self, month_name: str):
+        if month_name not in self.list_of_months:
+            raise ValueError('Invalid month')
+
+        month = self.list_of_months[month_name]
+
+        # Filter expenses and incomes for the given month
+        expenses_in_month = [expense for expense in self.analysis.expenses if expense.date.month == month]
+        incomes_in_month = [income for income in self.analysis.incomes if income.date.month == month]
+
+        # Get the days and values for expenses and incomes
+        expense_days = [expense.date.day for expense in expenses_in_month]
+        expense_values = [-expense.value for expense in expenses_in_month]  # make expense values negative
+        income_days = [income.date.day for income in incomes_in_month]
+        income_values = [income.value for income in incomes_in_month]
+
+        # Get the maximum number of days in the month
+        year = expenses_in_month[0].date.year if expenses_in_month else incomes_in_month[0].date.year
+        max_days = days_in_month(self.list_of_months[month_name], is_leap_year(year))
+
+        plt.figure(figsize=(10, 5))
+
+        # Plot expenses and incomes
+        plt.bar(expense_days, expense_values, color='red', label='Expenses')
+        plt.bar(income_days, income_values, color='green', label='Incomes')
+
+        plt.xlabel('Day of the month')
+        plt.ylabel('Total expenses/incomes ($)')
+        plt.title(f'Total expenses and incomes in {month_name}')
+        plt.xlim(0, max_days + 1)
+        plt.xticks(range(1, max_days + 1))
+        plt.legend()  # add a legend to distinguish expenses and incomes
+        plt.axhline(0, color='black')  # add x-axis in the middle of the plot
+
+        plt.show()
+        return None
+
     def plot_total_expenses_month(self, month_name: str):
 
         if month_name not in self.list_of_months:

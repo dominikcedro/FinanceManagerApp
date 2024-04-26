@@ -48,6 +48,9 @@ def main():
     visualize_parser = subparsers.add_parser('visualize', help='Visualize the current database status')
     visualize_parser.add_argument('visualize_month', type=str, help='month to visualize data')
 
+    # Visualize total month
+    visualize_totparser = subparsers.add_parser('visualize_total_month', help='Visualize both incomes and expenses for given month')
+    visualize_totparser.add_argument('visualize_total_month',type=str,help='Which month should be visualized')
     args = parser.parse_args()
 
     session = setup_connection_db()
@@ -107,6 +110,17 @@ def main():
 
             session.commit()
             session.close()
+    elif args.command == 'visualize_total_month':
+        with session() as session:
+            expenses = session.query(FinOpModel).filter(FinOpModel.op_type == 'expense')
+            incomes = session.query(FinOpModel).filter(FinOpModel.op_type == 'income')
+            exp_list = expenses.all()
+            inc_list = incomes.all()
+            analysis = Analysis(exp_list, inc_list)
+            chosen_month = args.visualize_total_month
+            Visualization(analysis).plot_total_expenses_and_incomes_month(chosen_month)
+
+
     # elif args.command == 'get_all_cat':
     #     with session() as session:
     #         categories = session.query(Categories)
