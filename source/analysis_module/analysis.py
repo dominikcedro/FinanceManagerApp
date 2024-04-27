@@ -32,10 +32,10 @@ class Analysis:
         self.datetime_format = DATETIME_FORMAT
 
     def total_expenses(self):
-        return sum(expense.value for expense in self.expenses)
+        return round(sum(expense.value for expense in self.expenses),2)
 
     def total_income(self):
-        return sum(income.value for income in self.incomes)
+        return round(sum(income.value for income in self.incomes),2)
 
     def total_expense_category(self, category):
         sum = 0
@@ -72,10 +72,10 @@ class Analysis:
         return sum
 
     def average_income(self):
-        return self.total_income() / len(self.incomes)
+        return round(self.total_income() / len(self.incomes),2)
 
     def average_expense(self):
-        return self.total_expenses() / len(self.expenses)
+        return round(self.total_expenses() / len(self.expenses),2)
 
     def average_expense_category(self, category):
         return self.total_expense_category(category) / len(self.expenses)

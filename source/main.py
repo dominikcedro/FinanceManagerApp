@@ -2,23 +2,24 @@
 original author: Dominik Cedro
 created: 2024-04-17
 license: GSB 3.0
-description: This module main app functionalities
+description: This module encapsulates main app functionalities
 """
 import argparse
-from .database_module.database import setup_connection_db, query_by_date, query_by_type
+from .database_module.database import setup_connection_db
 from .database_module.model.finop_model import FinOpModel
 from .operations_module.financial_operation import FinOp
 from .analysis_module.analysis import Analysis
 from .visualization_module.visualization import Visualization
 from .database_module.model.categories import Categories
+
+
 def main():
 
     parser = argparse.ArgumentParser(description="Python Finance App")
-
     subparsers = parser.add_subparsers(dest="command")
 
-    test_parser = subparsers.add_parser('test', help='testing parser if connection is correct')
-
+    # test database connection
+    test_parser = subparsers.add_parser('test_db_connection', help='testing if connection to database is correct')
 
     # Add financial operation command
     add_parser = subparsers.add_parser('add_op', help='Add a new financial operation to the database')
@@ -34,10 +35,9 @@ def main():
     add_cat_parser.add_argument('description_cat', type=str, help='Description of the category')
 
     # Analyze average total (avgtot) command
-    analyze_parser = subparsers.add_parser('analyze_avgtot', help='Analyze the current database status')
-    # analyze_parser.add_argument('month to analyze', type=str,help='month that will be analyzed')
-    # analyze_parser.add_argument('analyze_operation', type=str, help='what kind of analysis to perform')
-    # analyze_parser.add_argument('analyze_type', type=str, help='nobody reads that')
+    analyze_parser = subparsers.add_parser('analyze_all',
+                                           help='Analyze all financial operations, provides total sum and average for incomes and expenses')
+
 
 
     # Analyze average total by category
@@ -51,17 +51,60 @@ def main():
     # Visualize total month
     visualize_totparser = subparsers.add_parser('visualize_total_month', help='Visualize both incomes and expenses for given month')
     visualize_totparser.add_argument('visualize_total_month',type=str,help='Which month should be visualized')
+
+    # List operations
+    list_parser = subparsers.add_parser('list_operations', help='List all operations')
+    list_parser.add_argument('--order', type=str, default='date', choices=['date', 'category', 'value'],
+                             help='Order in which to list the operations')
+    list_parser.add_argument('--direction', type=str, default='ASC', choices=['ASC', 'DESC'],
+                               help='ascending or descending')
+    list_parser.add_argument('--limit', type=int, default=5)
+
+    # List categories
+    category_list_parser = subparsers.add_parser('list_categories', help='List all operations')
+    category_list_parser.add_argument('--limit', type=int, default=5)
+
     args = parser.parse_args()
 
     session = setup_connection_db()
 
-    if args.command == 'add_op':
+    if args.command == 'list_operations':
+        with session() as session:
+            if args.order == 'date':
+                operations = session.query(FinOpModel).order_by(FinOpModel.date).limit(args.limit).all()
+            elif args.order == 'category':
+                operations = session.query(FinOpModel).order_by(FinOpModel.category).limit(args.limit).all()
+            elif args.order == 'value':
+                operations = session.query(FinOpModel).order_by(FinOpModel.value).limit(args.limit).all()
+            print(f'List operations')
+            print(f'order: {args.order}, limit: {args.limit}, direction: {args.direction}')
+            print('')
+            for operation in operations:
+                print(operation)
+            print('')
+            session.commit()
+            session.close()
+
+    elif args.command == 'list_categories':
+        with session() as session:
+            categories = session.query(Categories).limit(args.limit).all()
+            print('List categories')
+            print(f'limit: {args.limit}')
+            print('')
+            for category in categories:
+                print(category)
+            print('')
+            session.commit()
+            session.close()
+
+    elif args.command == 'add_op':
         with session() as session:
             category = session.query(Categories).filter(Categories.name == args.category).first()
             new_operation = FinOpModel(FinOp(args.name_op, args.date, args.op_type, category, args.value))
             session.add(new_operation)
             session.commit()
             session.close()
+
     elif args.command == 'add_cat':
         with session() as session:
             new_category = Categories(name=args.name_cat, description=args.description_cat)
@@ -69,17 +112,20 @@ def main():
             session.commit()
             session.close()
 
-    elif args.command == 'analyze_avgtot':
+    elif args.command == 'analyze_all':
         with session() as session:
             expenses = session.query(FinOpModel).filter(FinOpModel.op_type == 'expense')
             incomes = session.query(FinOpModel).filter(FinOpModel.op_type == 'income')
             exp_list = expenses.all()
             inc_list = incomes.all()
             analysis = Analysis(exp_list, inc_list)
-            print(f'total of all expenses {analysis.total_expenses()}')
-            print(f'average of all expenses {analysis.average_expense()}')
-            print(f'total of all incomes {analysis.total_income()}')
-            print(f'average of all incomes {analysis.average_income()}')
+            print('Total analysis')
+            print('')
+            print(f'total of all expenses: {analysis.total_expenses()}')
+            print(f'average of all expenses: {analysis.average_expense()}')
+            print(f'total of all incomes: {analysis.total_income()}')
+            print(f'average of all incomes: {analysis.average_income()}')
+            print('')
             session.commit()
             session.close()
 
@@ -91,10 +137,11 @@ def main():
             inc_list = incomes.all()
             analysis = Analysis(exp_list, inc_list)
             chosen_category = args.analyze_category
-            print(f'total of all expenses for category {chosen_category} : {analysis.total_expense_category(chosen_category)}')
-            print(f'average of all expenses {chosen_category} :{analysis.average_expense_category(chosen_category)}')
-            print(f'total of all incomes {chosen_category} :{analysis.total_income_category(chosen_category)}')
-            print(f'average of all incomes {chosen_category} :{analysis.average_income_category(chosen_category)}')
+            print(f'total of all expenses for category {chosen_category}: {analysis.total_expense_category(chosen_category)}')
+            print(f'average of all expenses {chosen_category}: {analysis.average_expense_category(chosen_category)}')
+            print(f'total of all incomes {chosen_category}: {analysis.total_income_category(chosen_category)}')
+            print(f'average of all incomes {chosen_category}: {analysis.average_income_category(chosen_category)}')
+            print('')
             session.commit()
             session.close()
 
@@ -107,9 +154,9 @@ def main():
             analysis = Analysis(exp_list, inc_list)
             chosen_month = args.visualize_month
             Visualization(analysis).plot_total_expenses_month(chosen_month)
-
             session.commit()
             session.close()
+
     elif args.command == 'visualize_total_month':
         with session() as session:
             expenses = session.query(FinOpModel).filter(FinOpModel.op_type == 'expense')
@@ -120,16 +167,16 @@ def main():
             chosen_month = args.visualize_total_month
             Visualization(analysis).plot_total_expenses_and_incomes_month(chosen_month)
 
-
-    # elif args.command == 'get_all_cat':
-    #     with session() as session:
-    #         categories = session.query(Categories)
-    #         list_of_categories = query.all
-    elif args.command == 'test':
+    elif args.command == 'test_db_connection':
         with session() as session:
             session.commit()
             session.close()
-            print("test successful, connection correct")
+            print('Test connection')
+            print('')
+            print("Test successful, connection correct")
+            # TODO maybe something more sophisticated than print
+            print('')
+
 
 if __name__ == "__main__":
     main()
