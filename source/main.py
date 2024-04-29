@@ -45,8 +45,8 @@ def main():
     analyze_cat_parser.add_argument('analyze_category', type=str, help='blabla')
 
     # Visualize command
-    visualize_parser = subparsers.add_parser('visualize', help='Visualize the current database status')
-    visualize_parser.add_argument('visualize_month', type=str, help='month to visualize data')
+    # visualize_parser = subparsers.add_parser('visualize', help='Visualize the current database status')
+    # visualize_parser.add_argument('visualize_month', type=str, help='month to visualize data')
 
     # Visualize total month
     visualize_totparser = subparsers.add_parser('visualize_total_month', help='Visualize both incomes and expenses for given month')
@@ -145,17 +145,17 @@ def main():
             session.commit()
             session.close()
 
-    elif args.command == 'visualize':
-        with session() as session:
-            expenses = session.query(FinOpModel).filter(FinOpModel.op_type == 'expense')
-            incomes = session.query(FinOpModel).filter(FinOpModel.op_type == 'income')
-            exp_list = expenses.all()
-            inc_list = incomes.all()
-            analysis = Analysis(exp_list, inc_list)
-            chosen_month = args.visualize_month
-            Visualization(analysis).plot_total_expenses_month(chosen_month)
-            session.commit()
-            session.close()
+    # elif args.command == 'visualize':
+    #     with session() as session:
+    #         expenses = session.query(FinOpModel).filter(FinOpModel.op_type == 'expense')
+    #         incomes = session.query(FinOpModel).filter(FinOpModel.op_type == 'income')
+    #         exp_list = expenses.all()
+    #         inc_list = incomes.all()
+    #         analysis = Analysis(exp_list, inc_list)
+    #         chosen_month = args.visualize_month
+    #         Visualization(analysis).plot_total_expenses_month(chosen_month)
+    #         session.commit()
+    #         session.close()
 
     elif args.command == 'visualize_total_month':
         with session() as session:
