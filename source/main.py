@@ -11,6 +11,10 @@ from .operations_module.financial_operation import FinOp
 from .analysis_module.analysis import Analysis
 from .visualization_module.visualization import Visualization
 from .database_module.model.categories import Categories
+import logging
+import logging.config
+from sqlalchemy import text
+
 
 
 def main():
@@ -167,16 +171,39 @@ def main():
             chosen_month = args.visualize_total_month
             Visualization(analysis).plot_total_expenses_and_incomes_month(chosen_month)
 
-    elif args.command == 'test_db_connection':
-        with session() as session:
-            session.commit()
-            session.close()
-            print('Test connection')
-            print('')
-            print("Test successful, connection correct")
-            # TODO maybe something more sophisticated than print
-            print('')
 
+    elif args.command == 'test_db_connection':
+        logger.info('test_db_connection: starting test session..')
+        try:
+            with session() as session:
+                session.execute(text("SELECT 1"))  # simple query to test the connection
+                session.commit()
+                session.close()
+                logger.info('test_db_connection: successful')
+        except Exception as e:
+            logger.error(f'test_db_connection: failed, error: {str(e)}')
 
 if __name__ == "__main__":
+    import logging
+
+    logger = logging.getLogger(__name__)
+    logger.setLevel(logging.INFO)
+
+    # create a file handler
+    file_handler = logging.FileHandler('example.log')
+    file_handler.setLevel(logging.INFO)
+
+    # create a stream handler
+    stream_handler = logging.StreamHandler()
+    stream_handler.setLevel(logging.INFO)
+
+    # create a logging format
+    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+    file_handler.setFormatter(formatter)
+    stream_handler.setFormatter(formatter)
+
+    # add the handlers to the logger
+    logger.addHandler(file_handler)
+    logger.addHandler(stream_handler)
+
     main()
