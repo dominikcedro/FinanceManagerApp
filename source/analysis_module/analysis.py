@@ -40,7 +40,7 @@ class Analysis:
     def total_expense_category(self, category):
         sum = 0
         for expense in self.expenses:
-            if expense.category.name == category:
+            if expense.category == category:
                 sum += expense.value
         return sum
 

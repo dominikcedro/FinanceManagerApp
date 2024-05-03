@@ -47,7 +47,7 @@ class FinOp:
     @staticmethod
     def _valid_date_format(date: str):
         """
-        This method checks if the date is in the correct format (YYYY-MM-DD).
+        This method checks if the date is in the correct format '%Y-%m-%d %H:%M:%S'.
     """
         try:
             datetime.strptime(date, DATETIME_FORMAT)

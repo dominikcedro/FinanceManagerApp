@@ -52,11 +52,11 @@ class TestAnalysis(unittest.TestCase):
     def test_average_income(self):
         self.assertEqual(self.analysis.average_income(), 3000.0)
 
-    # def test_average_expense_category(self):
-    #     self.assertEqual(self.analysis.average_expense_category(self.HOUSING_CATEGORY), 500.0)
-    #
-    # def test_average_income_category(self):
-    #     self.assertEqual(self.analysis.average_income_category(self.JOB_CATEGORY), 3000.0)
+    def test_average_expense_category(self):
+        self.assertEqual(self.analysis.average_expense_category(self.HOUSING_CATEGORY), 500.0)
+
+    def test_average_income_category(self):
+        self.assertEqual(self.analysis.average_income_category(self.JOB_CATEGORY), 3000.0)
 
 
 if __name__ == '__main__':

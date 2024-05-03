@@ -16,7 +16,6 @@ import logging.config
 from sqlalchemy import text
 
 
-
 def main():
 
     parser = argparse.ArgumentParser(description="Python Finance App")
@@ -120,6 +119,9 @@ def main():
         with session() as session:
             expenses = session.query(FinOpModel).filter(FinOpModel.op_type == 'expense')
             incomes = session.query(FinOpModel).filter(FinOpModel.op_type == 'income')
+
+            # TODO missing transform from model to class in all commands from parser
+
             exp_list = expenses.all()
             inc_list = incomes.all()
             analysis = Analysis(exp_list, inc_list)
@@ -165,8 +167,8 @@ def main():
         with session() as session:
             expenses = session.query(FinOpModel).filter(FinOpModel.op_type == 'expense')
             incomes = session.query(FinOpModel).filter(FinOpModel.op_type == 'income')
-            exp_list = expenses.all()
-            inc_list = incomes.all()
+            exp_list = [expense.to_finop() for expense in expenses.all()]
+            inc_list = [income.to_finop() for income in incomes.all()]
             analysis = Analysis(exp_list, inc_list)
             chosen_month = args.visualize_total_month
             Visualization(analysis).plot_total_expenses_and_incomes_month(chosen_month)
