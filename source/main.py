@@ -5,7 +5,7 @@ license: GSB 3.0
 description: This module encapsulates main app functionalities
 """
 import argparse
-from .database_module.database import setup_connection_db
+from .database_module.database import setup_connection_db, query_all_prepare_with_analysis
 from .database_module.model.finop_model import FinOpModel
 from .operations_module.financial_operation import FinOp
 from .analysis_module.analysis import Analysis
@@ -117,14 +117,7 @@ def main():
 
     elif args.command == 'analyze_all':
         with session() as session:
-            expenses = session.query(FinOpModel).filter(FinOpModel.op_type == 'expense')
-            incomes = session.query(FinOpModel).filter(FinOpModel.op_type == 'income')
-
-            # TODO missing transform from model to class in all commands from parser
-
-            exp_list = expenses.all()
-            inc_list = incomes.all()
-            analysis = Analysis(exp_list, inc_list)
+            analysis = query_all_prepare_with_analysis(session)
             print('Total analysis')
             print('')
             print(f'total of all expenses: {analysis.total_expenses()}')
@@ -137,11 +130,7 @@ def main():
 
     elif args.command == 'analyze_by_category':
         with session() as session:
-            expenses = session.query(FinOpModel).filter(FinOpModel.op_type == 'expense')
-            incomes = session.query(FinOpModel).filter(FinOpModel.op_type == 'income')
-            exp_list = expenses.all()
-            inc_list = incomes.all()
-            analysis = Analysis(exp_list, inc_list)
+            analysis = query_all_prepare_with_analysis(session)
             chosen_category = args.analyze_category
             print(f'total of all expenses for category {chosen_category}: {analysis.total_expense_category(chosen_category)}')
             print(f'average of all expenses {chosen_category}: {analysis.average_expense_category(chosen_category)}')
@@ -165,11 +154,13 @@ def main():
 
     elif args.command == 'visualize_total_month':
         with session() as session:
-            expenses = session.query(FinOpModel).filter(FinOpModel.op_type == 'expense')
-            incomes = session.query(FinOpModel).filter(FinOpModel.op_type == 'income')
-            exp_list = [expense.to_finop() for expense in expenses.all()]
-            inc_list = [income.to_finop() for income in incomes.all()]
-            analysis = Analysis(exp_list, inc_list)
+            # TODO code below should be put in some kind of function to simplify this file, its a copy paste pattern
+            # expenses = session.query(FinOpModel).filter(FinOpModel.op_type == 'expense')
+            # incomes = session.query(FinOpModel).filter(FinOpModel.op_type == 'income')
+            # exp_list = [expense.to_finop() for expense in expenses.all()]
+            # inc_list = [income.to_finop() for income in incomes.all()]
+            # analysis = Analysis(exp_list, inc_list)
+            analysis=query_all_prepare_with_analysis(session)
             chosen_month = args.visualize_total_month
             Visualization(analysis).plot_total_expenses_and_incomes_month(chosen_month)
 

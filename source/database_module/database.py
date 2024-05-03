@@ -54,6 +54,18 @@ def query_by_type(Session, type):
     results = query.all()
     return results
 
+def query_all_prepare_with_analysis(session) -> Analysis:
+    """
+    This function queries all rows from database and prepares them as analysis module
+    :param session:
+    :return:
+    """
+    expenses = session.query(FinOpModel).filter(FinOpModel.op_type == 'expense')
+    incomes = session.query(FinOpModel).filter(FinOpModel.op_type == 'income')
+    exp_list = [expense.to_finop() for expense in expenses.all()]
+    inc_list = [income.to_finop() for income in incomes.all()]
+    analysis = Analysis(exp_list, inc_list)
+    return analysis
 
 Session = setup_connection_db()
 
