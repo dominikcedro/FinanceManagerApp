@@ -6,7 +6,7 @@ description: This module contains tests for date_time_calc.py script
 """
 import unittest
 
-from source.date_time_calc import days_in_month
+from source.common.date_time_calc import days_in_month
 
 
 class DaysInMonth(unittest.TestCase):

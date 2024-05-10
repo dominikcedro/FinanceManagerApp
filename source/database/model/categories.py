@@ -5,7 +5,7 @@ license: BSD 3.0
 description: This module contains class categories for python finance app.
 """
 from sqlalchemy import Column, Integer, String
-from source.database_module.model.base import Base
+from source.database.model.base import Base
 from sqlalchemy.orm import relationship
 
 

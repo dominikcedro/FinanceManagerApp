@@ -6,10 +6,10 @@ description: This module contains class FinOpModel that provides ORM based on Fi
 """
 from sqlalchemy.orm import relationship
 
-from source.database_module.model.categories import Categories
-from source.operations_module.financial_operation import FinOp
+from source.database.model.categories import Categories
+from source.operations.financial_operation import FinOp
 from sqlalchemy import Column, Integer, String, DateTime, Float, ForeignKey
-from source.database_module.model.base import Base
+from source.database.model.base import Base
 
 
 DATETIME_FORMAT = '%Y-%m-%d %H:%M:%S'

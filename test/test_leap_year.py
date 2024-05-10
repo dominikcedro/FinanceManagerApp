@@ -6,7 +6,7 @@ description: This module contains tests for date_time_calc.py script
 """
 import unittest
 
-from source.date_time_calc import is_leap_year
+from source.common.date_time_calc import is_leap_year
 """
 original author: Dominik Cedro
 created: 2024-04-11

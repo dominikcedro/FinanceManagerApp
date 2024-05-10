@@ -2,7 +2,7 @@
 original author: Dominik Cedro
 created: 2024-04-02
 license: GSB 3.0
-description: This module contains database_module initialization script using sqlalchemy.
+description: This module contains database initialization script using sqlalchemy.
 """
 import os
 
@@ -14,7 +14,7 @@ from sqlalchemy import and_
 from .model.base import Base
 from .model.finop_model import FinOpModel
 from .model.categories import Categories
-from ..analysis_module.analysis import Analysis
+from ..analysis.analysis import Analysis
 
 
 
@@ -82,7 +82,7 @@ if __name__ == "__main__":
 # print(Test_analysis.total_expense_date('2024-03-01 00:00:00', '2024-03-02 23:59:59'))
 # print(incomes[0].date)
 #
-# from source.visualization_module.visualization import Visualization
+# from source.visualization.visualization import Visualization
 # analysis = Analysis(expenses, [])
 # visualization = Visualization(analysis)
 # visualization.plot_total_expenses_month('March')

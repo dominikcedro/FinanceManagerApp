@@ -6,9 +6,7 @@ description: This module contains visalization class for python finance app.
 """
 
 import matplotlib.pyplot as plt
-from source.analysis_module.analysis import Analysis
-from source.operations_module.financial_operation import FinOp
-from source.date_time_calc import is_leap_year, days_in_month
+from source.common.date_time_calc import is_leap_year, days_in_month
 
 
 class Visualization:
@@ -24,10 +22,13 @@ class Visualization:
             raise ValueError('Invalid month')
 
         month = self.list_of_months[month_name]
-
+        # check if expenses and incomes are empty, if so return message "month empty" with
         # Filter expenses and incomes for the given month
         expenses_in_month = [expense for expense in self.analysis.expenses if expense.date.month == month]
         incomes_in_month = [income for income in self.analysis.incomes if income.date.month == month]
+
+        if not expenses_in_month and not incomes_in_month:
+            return "Month Empty"
 
         # Get the days and values for expenses and incomes
         expense_days = [expense.date.day for expense in expenses_in_month]
@@ -50,9 +51,8 @@ class Visualization:
         plt.title(f'Total expenses and incomes in {month_name}')
         plt.xlim(0, max_days + 1)
         plt.xticks(range(1, max_days + 1))
-        plt.legend()  # add a legend to distinguish expenses and incomes
-        plt.axhline(0, color='black')  # add x-axis in the middle of the plot
-
+        plt.legend()
+        plt.axhline(0, color='black')
         plt.show()
         return None
 

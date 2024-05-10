@@ -6,9 +6,9 @@ description: This module contains visualization class tests
 """
 
 import unittest
-from source.operations_module.financial_operation import FinOp
-from source.analysis_module.analysis import Analysis
-from source.visualization_module.visualization import Visualization
+from source.operations.financial_operation import FinOp
+from source.analysis.analysis import Analysis
+from source.visualization.visualization import Visualization
 
 
 class TestFinOp(unittest.TestCase):

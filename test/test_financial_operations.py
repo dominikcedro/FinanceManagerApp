@@ -5,7 +5,7 @@ license: BSD 3.0
 description: This module contains tests for the financial_operations module for my python finance app.
 """
 import unittest
-from source.operations_module.financial_operation import FinOp
+from source.operations.financial_operation import FinOp
 
 
 class TestFinOp(unittest.TestCase):
