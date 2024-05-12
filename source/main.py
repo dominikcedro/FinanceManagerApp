@@ -8,13 +8,16 @@ import argparse
 from .database.database import setup_connection_db, query_all_prepare_with_analysis
 from .database.model.finop_model import FinOpModel
 from .operations.financial_operation import FinOp
-from .analysis.analysis import Analysis
 from .visualization.visualization import Visualization
 from .database.model.categories import Categories
-import logging
-import logging.config
 from sqlalchemy import text
 
+import logging
+import logging.config
+from .common.logging_config import LOGGING_CONFIG
+
+logging.config.dictConfig(LOGGING_CONFIG)
+logger = logging.getLogger(__name__)
 
 def main():
 
@@ -172,26 +175,5 @@ def main():
             logger.error(f'test_db_connection: failed, error: {str(e)}')
 
 if __name__ == "__main__":
-    import logging
-
-    logger = logging.getLogger(__name__)
-    logger.setLevel(logging.INFO)
-
-    # create a file handler
-    file_handler = logging.FileHandler('example.log')
-    file_handler.setLevel(logging.INFO)
-
-    # create a stream handler
-    stream_handler = logging.StreamHandler()
-    stream_handler.setLevel(logging.INFO)
-
-    # create a logging format
-    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
-    file_handler.setFormatter(formatter)
-    stream_handler.setFormatter(formatter)
-
-    # add the handlers to the logger
-    logger.addHandler(file_handler)
-    logger.addHandler(stream_handler)
 
     main()

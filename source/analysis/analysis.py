@@ -5,6 +5,13 @@ license: BSD 3.0
 description: This module contains classes analysis. It is a part of a simple personal python finance app.
 """
 from datetime import datetime
+import logging
+import logging.config
+from source.common.logging_config import LOGGING_CONFIG
+
+logging.config.dictConfig(LOGGING_CONFIG)
+logger = logging.getLogger(__name__)
+
 
 DATETIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
