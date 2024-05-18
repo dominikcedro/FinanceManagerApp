@@ -143,18 +143,6 @@ def main():
             session.commit()
             session.close()
 
-    # elif args.command == 'visualize':
-    #     with session() as session:
-    #         expenses = session.query(FinOpModel).filter(FinOpModel.op_type == 'expense')
-    #         incomes = session.query(FinOpModel).filter(FinOpModel.op_type == 'income')
-    #         exp_list = expenses.all()
-    #         inc_list = incomes.all()
-    #         analysis = Analysis(exp_list, inc_list)
-    #         chosen_month = args.visualize_month
-    #         Visualization(analysis).plot_total_expenses_month(chosen_month)
-    #         session.commit()
-    #         session.close()
-
     elif args.command == 'visualize_total_month':
         with session() as session:
             analysis=query_all_prepare_with_analysis(session)

@@ -15,16 +15,17 @@ from .model.base import Base
 from .model.finop_model import FinOpModel
 from .model.categories import Categories
 from ..analysis.analysis import Analysis
+import logging.config
+from source.common.logging_config import LOGGING_CONFIG
+MAX_COUNT_ITEMS_DB: int = 1000
 
-
-
-
+logging.config.dictConfig(LOGGING_CONFIG)
+logger = logging.getLogger(__name__)
 
 def setup_connection_db():
-    # Get the directory of the current script
+
     dir_path = os.path.dirname(os.path.realpath(__file__))
 
-    # Construct the path to the database_config.json file
     config_path = os.path.join(dir_path, 'database_config.json')
 
     with open(config_path) as f:
@@ -41,25 +42,15 @@ def setup_connection_db():
     return Session
 
 
-def query_by_date(Session, date_start, date_end):
-    session = Session()
-    query = session.query(FinOpModel).filter(and_(FinOpModel.date > date_start, FinOpModel.date < date_end))
-    results = query.all()
-    return results
-
-
-def query_by_type(Session, type):
-    session = Session()
-    query = session.query(FinOpModel).filter(FinOpModel.op_type == type)
-    results = query.all()
-    return results
-
-def query_all_prepare_with_analysis(session) -> Analysis:
+def query_all_prepare_with_analysis(session) -> Analysis | None:
     """
     This function queries all rows from database and prepares them as analysis module
     :param session:
     :return:
     """
+    # check if amount of items is higher than 1 000 then abort if True
+    if count_entries_in_db(session, MAX_COUNT_ITEMS_DB):
+        return None
     expenses = session.query(FinOpModel).filter(FinOpModel.op_type == 'expense')
     incomes = session.query(FinOpModel).filter(FinOpModel.op_type == 'income')
     exp_list = [expense.to_finop() for expense in expenses.all()]
@@ -67,22 +58,13 @@ def query_all_prepare_with_analysis(session) -> Analysis:
     analysis = Analysis(exp_list, inc_list)
     return analysis
 
-Session = setup_connection_db()
+def count_entries_in_db(session, count):
+    count = session.query(FinOpModel).count()
+    if count > 1000:
+        logger.warning(f"Count of items in db over {count}")
+        return True
+    return False
+
 
 if __name__ == "__main__":
     pass
-
-#
-#
-# # test analysis - total exp
-# Test_analysis = Analysis(expenses, incomes)
-# print(Test_analysis.total_expenses())
-#
-# # test analysis - date
-# print(Test_analysis.total_expense_date('2024-03-01 00:00:00', '2024-03-02 23:59:59'))
-# print(incomes[0].date)
-#
-# from source.visualization.visualization import Visualization
-# analysis = Analysis(expenses, [])
-# visualization = Visualization(analysis)
-# visualization.plot_total_expenses_month('March')
