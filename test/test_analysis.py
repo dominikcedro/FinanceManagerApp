@@ -8,6 +8,7 @@ import unittest
 from source.operations.financial_operation import FinOp
 from source.analysis.analysis import Analysis
 import matplotlib
+
 matplotlib.use('Agg')
 
 class TestAnalysis(unittest.TestCase):

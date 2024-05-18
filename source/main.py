@@ -12,7 +12,6 @@ from .visualization.visualization import Visualization
 from .database.model.categories import Categories
 from sqlalchemy import text
 
-import logging
 import logging.config
 from .common.logging_config import LOGGING_CONFIG
 

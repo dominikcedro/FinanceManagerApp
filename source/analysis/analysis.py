@@ -5,7 +5,6 @@ license: BSD 3.0
 description: This module contains classes analysis. It is a part of a simple personal python finance app.
 """
 from datetime import datetime
-import logging
 import logging.config
 from source.common.logging_config import LOGGING_CONFIG
 
@@ -34,6 +33,7 @@ class Analysis:
     """
 
     def __init__(self, expenses, incomes):
+        logger.debug('analysis module initialized')
         self.expenses = expenses
         self.incomes = incomes
         self.datetime_format = DATETIME_FORMAT
