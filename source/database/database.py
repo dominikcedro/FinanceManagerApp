@@ -58,6 +58,7 @@ def query_all_prepare_with_analysis(session) -> Analysis | None:
     analysis = Analysis(exp_list, inc_list)
     return analysis
 
+
 def count_entries_in_db(session, count):
     count = session.query(FinOpModel).count()
     if count > 1000:
@@ -65,6 +66,38 @@ def count_entries_in_db(session, count):
         return True
     return False
 
+
+def query_by_month(session, chosen_month: str):
+    """
+    This function returns analysis prepared with rows from database from chosen month
+    :param session:
+    :param chosen_month:
+    :return: analysis - Analysis object
+    """
+    expenses = session.query(FinOpModel).filter(
+    FinOpModel.op_type == 'expense' and FinOpModel.date.month == chosen_month)
+    incomes = session.query(FinOpModel).filter(FinOpModel.op_type == 'income' and FinOpModel.date.month == chosen_month)
+    exp_list = [expense.to_finop() for expense in expenses.all()]
+    inc_list = [income.to_finop() for income in incomes.all()]
+    analysis = Analysis(exp_list, inc_list)
+    return analysis
+
+
+def query_by_category(session, chosen_category: str):
+    """
+    This function returns analysis prepared with rows from database with chosen category
+    :param session:
+    :param chosen_month:
+    :return: analysis - Analysis object
+    """
+    expenses = session.query(FinOpModel).filter(
+        FinOpModel.op_type == 'expense' and FinOpModel.category == chosen_category)
+    incomes = session.query(FinOpModel).filter(
+        FinOpModel.op_type == 'income' and FinOpModel.category == chosen_category)
+    exp_list = [expense.to_finop() for expense in expenses.all()]
+    inc_list = [income.to_finop() for income in incomes.all()]
+    analysis = Analysis(exp_list, inc_list)
+    return analysis
 
 if __name__ == "__main__":
     pass

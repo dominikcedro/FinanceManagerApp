@@ -5,9 +5,10 @@ license: GSB 3.0
 description: This module encapsulates main app functionalities
 """
 import argparse
-from .database.database import setup_connection_db, query_all_prepare_with_analysis
+from .database.database import setup_connection_db, query_all_prepare_with_analysis, query_by_month, query_by_category
 from .database.model.finop_model import FinOpModel
 from .operations.financial_operation import FinOp
+from .analysis.analysis import Analysis
 from .visualization.visualization import Visualization
 from .database.model.categories import Categories
 from sqlalchemy import text
@@ -92,9 +93,11 @@ def main():
 
     elif args.command == 'list_categories':
         with session() as session:
+            logger.info('List categories running')
             categories = session.query(Categories).limit(args.limit).all()
+            logger.debug(f'Returned {len(categories)} categories objects in response')
+            logger.debug(f'Return limit set to {args.limit}')
             print('List categories')
-            print(f'limit: {args.limit}')
             print('')
             for category in categories:
                 print(category)
@@ -122,8 +125,6 @@ def main():
             analysis = query_all_prepare_with_analysis(session)
             logger.info('Total analysis successful')
             logger.info(f'Total of all expenses: {analysis.total_expenses()}')
-
-
             print(f'average of all expenses: {analysis.average_expense()}')
             print(f'total of all incomes: {analysis.total_income()}')
             print(f'average of all incomes: {analysis.average_income()}')
@@ -133,8 +134,8 @@ def main():
 
     elif args.command == 'analyze_by_category':
         with session() as session:
-            analysis = query_all_prepare_with_analysis(session)
             chosen_category = args.analyze_category
+            analysis = query_by_category(session, chosen_category)
             print(f'total of all expenses for category {chosen_category}: {analysis.total_expense_category(chosen_category)}')
             print(f'average of all expenses {chosen_category}: {analysis.average_expense_category(chosen_category)}')
             print(f'total of all incomes {chosen_category}: {analysis.total_income_category(chosen_category)}')
@@ -145,16 +146,15 @@ def main():
 
     elif args.command == 'visualize_total_month':
         with session() as session:
-            analysis=query_all_prepare_with_analysis(session)
             chosen_month = args.visualize_total_month
+            analysis = query_by_month(session,chosen_month)
             Visualization(analysis).plot_total_expenses_and_incomes_month(chosen_month)
 
 
     elif args.command == 'test_db_connection':
-        # logger.info('test_db_connection: starting test session..')
         try:
             with session() as session:
-                session.execute(text("SELECT 1"))  # simple query to test the connection
+                session.execute(text("SELECT 1"))
                 session.commit()
                 session.close()
                 logger.info('test_db_connection: successful')
