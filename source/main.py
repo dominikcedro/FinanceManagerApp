@@ -50,10 +50,6 @@ def main():
     analyze_cat_parser = subparsers.add_parser('analyze_by_category', help='Analyze by cateogry all expenses and incomes')
     analyze_cat_parser.add_argument('analyze_category', type=str, help='blabla')
 
-    # Visualize command
-    # visualize_parser = subparsers.add_parser('visualize', help='Visualize the current database status')
-    # visualize_parser.add_argument('visualize_month', type=str, help='month to visualize data')
-
     # Visualize total month
     visualize_totparser = subparsers.add_parser('visualize_total_month', help='Visualize both incomes and expenses for given month')
     visualize_totparser.add_argument('visualize_total_month',type=str,help='Which month should be visualized')
@@ -76,6 +72,7 @@ def main():
 
     if args.command == 'list_operations':
         with session() as session:
+            logger.info('List operations argsparser command running')
             if args.order == 'date':
                 operations = session.query(FinOpModel).order_by(FinOpModel.date).limit(args.limit).all()
             elif args.order == 'category':
@@ -93,7 +90,7 @@ def main():
 
     elif args.command == 'list_categories':
         with session() as session:
-            logger.info('List categories running')
+            logger.info('List categories argsparser command running')
             categories = session.query(Categories).limit(args.limit).all()
             logger.debug(f'Returned {len(categories)} categories objects in response')
             logger.debug(f'Return limit set to {args.limit}')
@@ -107,6 +104,7 @@ def main():
 
     elif args.command == 'add_op':
         with session() as session:
+            logger.info('Add operation argsparser command running')
             category = session.query(Categories).filter(Categories.name == args.category).first()
             new_operation = FinOpModel(FinOp(args.name_op, args.date, args.op_type, category, args.value))
             session.add(new_operation)

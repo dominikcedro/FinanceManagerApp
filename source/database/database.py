@@ -17,29 +17,34 @@ from .model.categories import Categories
 from ..analysis.analysis import Analysis
 import logging.config
 from source.common.logging_config import LOGGING_CONFIG
+from sqlalchemy.exc import OperationalError
 MAX_COUNT_ITEMS_DB: int = 1000
 
 logging.config.dictConfig(LOGGING_CONFIG)
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('database')
 
 def setup_connection_db():
+    try:
+        dir_path = os.path.dirname(os.path.realpath(__file__))
 
-    dir_path = os.path.dirname(os.path.realpath(__file__))
+        config_path = os.path.join(dir_path, 'database_config.json')
 
-    config_path = os.path.join(dir_path, 'database_config.json')
+        with open(config_path) as f:
+            config = json.load(f)
+        username = config['username']
+        password = config['password']
+        host = config['host']
+        database_name = config['database_name']
 
-    with open(config_path) as f:
-        config = json.load(f)
-    username = config['username']
-    password = config['password']
-    host = config['host']
-    database_name = config['database_name']
+        engine = create_engine(f'mysql://{username}:{password}@{host}/{database_name}')
+        logger.info("Successfully established a connection to the database.")
+        Base.metadata.create_all(bind=engine)
+        Session = sessionmaker(bind=engine)
+        return Session
+    except OperationalError:
+        logger.error("Could not establish a connection to the database. Please check your internet connection.")
+        raise
 
-    engine = create_engine(f'mysql://{username}:{password}@{host}/{database_name}')
-
-    Base.metadata.create_all(bind=engine)
-    Session = sessionmaker(bind=engine)
-    return Session
 
 
 def query_all_prepare_with_analysis(session) -> Analysis | None:

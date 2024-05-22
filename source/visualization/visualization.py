@@ -8,17 +8,25 @@ description: This module contains visalization class for python finance app.
 import matplotlib.pyplot as plt
 from source.common.date_time_calc import is_leap_year, days_in_month
 
+import logging.config
+from source.common.logging_config import LOGGING_CONFIG
+
+logging.config.dictConfig(LOGGING_CONFIG)
+logger = logging.getLogger("visualization")
 
 class Visualization:
 
     def __init__(self, analysis):
+
         self.analysis = analysis
 
-        self.list_of_months = {'January': 1, 'February': 2, 'March': 3, 'April': 4, 'May': 5, 'June': 6,
-                               'July': 7, 'August': 8, 'September': 9, 'October': 10, 'November': 11, 'December': 12}
+        self.list_of_months = {'january': 1, 'february': 2, 'march': 3, 'april': 4, 'may': 5, 'june': 6,
+                               'july': 7, 'august': 8, 'september': 9, 'october': 10, 'november': 11, 'december': 12}
 
     def plot_total_expenses_and_incomes_month(self, month_name: str):
+        month_name = month_name.lower()
         if month_name not in self.list_of_months:
+            logger.error('Invalid month name')
             raise ValueError('Invalid month')
 
         month = self.list_of_months[month_name]
@@ -28,6 +36,7 @@ class Visualization:
         incomes_in_month = [income for income in self.analysis.incomes if income.date.month == month]
 
         if not expenses_in_month and not incomes_in_month:
+            logger.error('Chosen month is empty')
             return "Month Empty"
 
         # Get the days and values for expenses and incomes

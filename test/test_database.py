@@ -9,7 +9,9 @@ import unittest
 from unittest.mock import patch, Mock
 from sqlalchemy.exc import OperationalError
 
-from source.database.database import setup_connection_db, query_all_prepare_with_analysis
+from source.database.database import setup_connection_db, query_all_prepare_with_analysis, count_entries_in_db, \
+    query_by_category, query_by_month
+
 
 class TestDatabase(unittest.TestCase):
     def setUp(self):
@@ -37,6 +39,28 @@ class TestDatabase(unittest.TestCase):
             setup_connection_db()
 
         mock_create_engine.assert_called_once()
+
+    @patch('source.database.database.sessionmaker')
+    @patch('source.database.database.FinOpModel')
+    def test_query_all_prepare_with_analysis(self, mock_finop_model, mock_sessionmaker):
+        mock_session = Mock()
+        mock_sessionmaker.return_value = mock_session
+
+        mock_query = Mock()
+        mock_session.query.return_value = mock_query
+
+        mock_filter = Mock()
+        mock_query.filter.return_value = mock_filter
+
+        mock_all = Mock()
+        mock_all.all.return_value = []
+        mock_filter.all.return_value = mock_all
+
+        analysis = query_all_prepare_with_analysis(mock_session)
+        self.assertIsNotNone(analysis)
+
+        mock_session.query.assert_called_once_with(mock_finop_model)
+        mock_filter.all.assert_called_once()
 
 if __name__ == '__main__':
     unittest.main()
