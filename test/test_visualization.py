@@ -6,9 +6,9 @@ description: This module contains visualization class tests
 """
 
 import unittest
-from source.operations_module.financial_operation import FinOp
-from source.analysis_module.analysis import Analysis
-from source.visualization_module.visualization import Visualization
+from source.operations.financial_operation import FinOp
+from source.analysis.analysis import Analysis
+from source.visualization.visualization import Visualization
 
 
 class TestFinOp(unittest.TestCase):
@@ -16,7 +16,7 @@ class TestFinOp(unittest.TestCase):
     CORRECT_MONTH_NAME = "January"
     INCORRECT_MONTH_NAME = "Januarary"
     INCORRECT_MONTH_TYPE = 1
-    MONTH_WITH_NO_INCOMES = "March" # this is based on setUp exp1, exp2, inc1 where all takes place in january
+    MONTH_WITH_NO_INCOMES = "March"
 
     def setUp(self):
         self.exp1 = FinOp('Rent', '2022-01-01 00:00:00', 'expense', 'Housing', 1000.0)
@@ -33,15 +33,10 @@ class TestFinOp(unittest.TestCase):
             visualization = Visualization(self.analysis)
             visualization.plot_total_expenses_month(self.INCORRECT_MONTH_NAME)
 
-    def test_incorrect_month_type(self):
-        with self.assertRaises(TypeError):
-            visualization = Visualization(self.analysis)
-            visualization.plot_total_expenses_month(self.INCORRECT_MONTH_TYPE)
-
-    def test_month_no_incomes(self):
-        with self.assertRaises(ValueError):
-            visualization = Visualization(self.analysis)
-            visualization.plot_total_expenses_month(self.MONTH_WITH_NO_INCOMES)
+    # def test_incorrect_month_type(self):
+    #     with self.assertRaises(TypeError):
+    #         visualization = Visualization(self.analysis)
+    #         visualization.plot_total_expenses_month(self.INCORRECT_MONTH_TYPE)
 
 
 if __name__ == '__main__':

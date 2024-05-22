@@ -4,12 +4,15 @@ created: 2024-04-03
 license: BSD 3.0
 description: This module contains class FinOpModel that provides ORM based on FinOp.
 """
-
-from source.operations_module.financial_operation import FinOp
-from sqlalchemy import Column, Integer, String, DateTime, Float, ForeignKey
-from source.database_module.model.base import Base
 from sqlalchemy.orm import relationship
 
+from source.database.model.categories import Categories
+from source.operations.financial_operation import FinOp
+from sqlalchemy import Column, Integer, String, DateTime, Float, ForeignKey
+from source.database.model.base import Base
+
+
+DATETIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
 class FinOpModel(Base):
     """
@@ -34,4 +37,7 @@ class FinOpModel(Base):
         self.value = finop.value
 
     def __repr__(self):
-        return f'{self.name} - {self.date} - {self.op_type} - {self.category} - {self.value}'
+        return f'{self.name} - {self.date} - {self.op_type} - {self.category.name} - {self.value}'
+
+    def to_finop(self) -> FinOp:
+        return FinOp(self.name, self.date.strftime(DATETIME_FORMAT), self.op_type, self.category.name, self.value)

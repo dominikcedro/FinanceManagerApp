@@ -2,9 +2,15 @@
 original author: Dominik Cedro
 created: 2024-03-17
 license: BSD 3.0
-description: This module contains classes analysis_module. It is a part of a simple personal python finance app.
+description: This module contains classes analysis. It is a part of a simple personal python finance app.
 """
 from datetime import datetime
+import logging.config
+from source.common.logging_config import LOGGING_CONFIG
+
+logging.config.dictConfig(LOGGING_CONFIG)
+logger = logging.getLogger(__name__)
+
 
 DATETIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
@@ -27,20 +33,21 @@ class Analysis:
     """
 
     def __init__(self, expenses, incomes):
+        logger.debug('analysis module initialized')
         self.expenses = expenses
         self.incomes = incomes
         self.datetime_format = DATETIME_FORMAT
 
     def total_expenses(self):
-        return sum(expense.value for expense in self.expenses)
+        return round(sum(expense.value for expense in self.expenses),2)
 
     def total_income(self):
-        return sum(income.value for income in self.incomes)
+        return round(sum(income.value for income in self.incomes),2)
 
     def total_expense_category(self, category):
         sum = 0
         for expense in self.expenses:
-            if expense.category.name == category:
+            if expense.category == category:
                 sum += expense.value
         return sum
 
@@ -72,10 +79,10 @@ class Analysis:
         return sum
 
     def average_income(self):
-        return self.total_income() / len(self.incomes)
+        return round(self.total_income() / len(self.incomes),2)
 
     def average_expense(self):
-        return self.total_expenses() / len(self.expenses)
+        return round(self.total_expenses() / len(self.expenses),2)
 
     def average_expense_category(self, category):
         return self.total_expense_category(category) / len(self.expenses)
