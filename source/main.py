@@ -80,8 +80,9 @@ def main():
                                                                   ' Default value: 5')
 
     args = parser.parse_args()
-
     session = setup_connection_db()
+    if session is None:
+        exit(1)
 
     if args.command == 'list_operations':
         with session() as session:

@@ -45,7 +45,7 @@ def setup_connection_db():
         return Session
     except OperationalError:
         logger.error("Could not establish a connection to the database. Please check your internet connection.")
-        raise
+        return None
     except :
         logger.error("Different error than Operational")
 
