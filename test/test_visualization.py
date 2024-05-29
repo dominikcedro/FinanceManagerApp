@@ -26,17 +26,12 @@ class TestFinOp(unittest.TestCase):
 
     def test_correct_month_name(self):
         visualization = Visualization(self.analysis)
-        self.assertEqual(None, visualization.plot_total_expenses_month(self.CORRECT_MONTH_NAME))
+        self.assertEqual(None, visualization.plot_total_expenses_and_incomes_month(self.CORRECT_MONTH_NAME))
 
     def test_incorrect_month_name(self):
         with self.assertRaises(ValueError):
             visualization = Visualization(self.analysis)
-            visualization.plot_total_expenses_month(self.INCORRECT_MONTH_NAME)
-
-    # def test_incorrect_month_type(self):
-    #     with self.assertRaises(TypeError):
-    #         visualization = Visualization(self.analysis)
-    #         visualization.plot_total_expenses_month(self.INCORRECT_MONTH_TYPE)
+            visualization.plot_total_expenses_and_incomes_month(self.INCORRECT_MONTH_NAME)
 
 
 if __name__ == '__main__':

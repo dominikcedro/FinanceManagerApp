@@ -18,6 +18,7 @@ from ..analysis.analysis import Analysis
 import logging.config
 from source.common.logging_config import LOGGING_CONFIG
 from sqlalchemy.exc import OperationalError
+
 MAX_COUNT_ITEMS_DB: int = 1000
 
 logging.config.dictConfig(LOGGING_CONFIG)
@@ -37,13 +38,16 @@ def setup_connection_db():
         database_name = config['database_name']
 
         engine = create_engine(f'mysql://{username}:{password}@{host}/{database_name}')
-        logger.info("Successfully established a connection to the database.")
         Base.metadata.create_all(bind=engine)
         Session = sessionmaker(bind=engine)
+        logger.info("Successfully established a connection to the database.")
+
         return Session
     except OperationalError:
         logger.error("Could not establish a connection to the database. Please check your internet connection.")
-        raise
+        return None
+    except :
+        logger.error("Different error than Operational")
 
 
 
