@@ -87,6 +87,10 @@ def main():
     if args.command == 'list_operations':
         with session() as session:
             logger.info('List operations argsparser command running')
+            operations = session.query(FinOpModel).all()
+            if not operations:
+                logger.info("No operations")
+                exit(1)
             if args.order == 'date':
                 operations = session.query(FinOpModel).order_by(FinOpModel.date).limit(args.limit).all()
             elif args.order == 'category':
@@ -106,6 +110,9 @@ def main():
         with session() as session:
             logger.info('List categories argsparser command running')
             categories = session.query(Categories).limit(args.limit).all()
+            if not categories:
+                logger.info('No categories')
+                exit(1)
             logger.debug(f'Returned {len(categories)} categories objects in response')
             logger.debug(f'Return limit set to {args.limit}')
             print('List categories')
