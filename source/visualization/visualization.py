@@ -37,7 +37,6 @@ class Visualization:
 
         if not expenses_in_month and not incomes_in_month:
             logger.info(f'Chosen month {month}is empty')
-
             return "Month Empty"
 
         # Get the days and values for expenses and incomes
