@@ -137,7 +137,13 @@ def main():
 
     elif args.command == 'add_cat':
         with session() as session:
-            new_category = Categories(name=args.name_cat, description=args.description_cat)
+            name = args.name_cat.lower()
+            description = args.description_cat.lower()
+            category = session.query(Categories).filter(Categories.name == name).first()
+            if category:
+                logger.error(f"Category '{name}' already exists")
+                exit(1)
+            new_category = Categories(name=name, description=description)
             session.add(new_category)
             session.commit()
             session.close()
@@ -199,7 +205,12 @@ def main():
         with session() as session:
             chosen_month = args.visualize_total_month
             analysis = query_by_month(session,chosen_month)
-            Visualization(analysis).plot_total_expenses_and_incomes_month(chosen_month)
+            try:
+                Visualization(analysis).plot_total_expenses_and_incomes_month(chosen_month)
+            except ValueError as e:
+                print('Incorrect month name')
+                exit(1)
+
 
 
     elif args.command == 'test_db_connection':

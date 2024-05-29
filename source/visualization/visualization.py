@@ -26,7 +26,7 @@ class Visualization:
     def plot_total_expenses_and_incomes_month(self, month_name: str):
         month_name = month_name.lower()
         if month_name not in self.list_of_months:
-            logger.error('Invalid month name')
+            logger.error(f'Invalid month name "{month_name}"')
             raise ValueError('Invalid month')
 
         month = self.list_of_months[month_name]
@@ -36,7 +36,8 @@ class Visualization:
         incomes_in_month = [income for income in self.analysis.incomes if income.date.month == month]
 
         if not expenses_in_month and not incomes_in_month:
-            logger.error('Chosen month is empty')
+            logger.info(f'Chosen month {month}is empty')
+
             return "Month Empty"
 
         # Get the days and values for expenses and incomes
