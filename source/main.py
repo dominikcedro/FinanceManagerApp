@@ -123,7 +123,10 @@ def main():
             categories = session.query(Categories).limit(args.limit).all()
             if not categories:
                 logger.info('No categories')
-                exit(1)
+                print("No categories")
+                session.commit()
+                session.close()
+                exit(0)
             logger.debug(f'Returned {len(categories)} categories objects in response')
             logger.debug(f'Return limit set to {args.limit}')
             print('List categories')
@@ -141,11 +144,16 @@ def main():
             category = session.query(Categories).filter(func.lower(Categories.name) == category_lower).first()
             if category is None:
                 logger.error(f"Category '{args.category}' does not exist.")
-                exit(1)
+                print(f"Category '{args.category}' does not exist.")
+                session.commit()
+                session.close()
+                exit(0)
             new_operation = FinOpModel(FinOp(args.name_op, args.date, args.op_type, category, args.value))
             session.add(new_operation)
             session.commit()
             session.close()
+            print("Added new operation: ")
+            print(f" {args.name_op} {args.date} {args.op_type} {category} {args.value}")
 
     elif args.command == 'add_cat':
         with session() as session:
@@ -157,11 +165,13 @@ def main():
                 print(f"Category '{name}' already exists")
                 session.commit()
                 session.close()
-                exit(0)
             new_category = Categories(name=name, description=description)
             session.add(new_category)
             session.commit()
             session.close()
+            print("Added new category: ")
+            print(f" {args.name_cat} {args.description_cat}")
+
 
     elif args.command == 'analyze_all':
         with session() as session:
@@ -192,7 +202,9 @@ def main():
             category = session.query(Categories).filter(Categories.name == args.analyze_category).first()
             if category is None:
                 logger.error(f"Category '{args.analyze_category}' does not exist.")
-                exit(1)
+                print(f"Category '{args.analyze_category}' does not exist.")
+                session.commit()
+                session.close()
             chosen_category = category
             analysis = query_by_category(session, chosen_category)
             if not analysis.expenses:
@@ -223,7 +235,8 @@ def main():
                 Visualization(analysis).plot_total_expenses_and_incomes_month(chosen_month)
             except ValueError as e:
                 print('Incorrect month name')
-                exit(1)
+                session.commit()
+                session.close()
 
     elif args.command == 'test_db_connection':
         # tests the connection by starting session and executing simple SELECT 1 query, returns log if successful.
@@ -233,9 +246,12 @@ def main():
                 session.commit()
                 session.close()
                 logger.info('test_db_connection: successful')
-                print("test_db_connection successful")
+                print("Connection to database successful")
         except Exception as e:
+            print("Connection to database NOT successful")
             logger.error(f'test_db_connection: failed, error: {str(e)}')
+            exit(0)
+
 
 if __name__ == "__main__":
 
