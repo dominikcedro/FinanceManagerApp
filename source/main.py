@@ -15,6 +15,8 @@ from .database.model.categories import Categories
 from sqlalchemy import text
 import logging.config
 from .common.logging_config import LOGGING_CONFIG
+from sqlalchemy import func
+
 
 # setup logging using LOGGING_CONFIG dictonary in common dir
 logging.config.dictConfig(LOGGING_CONFIG)
@@ -135,10 +137,11 @@ def main():
     elif args.command == 'add_op':
         with session() as session:
             logger.info('Add operation argsparser command running')
-            category = session.query(Categories).filter(Categories.name.lower() == args.category.lower()).first()
+            category_lower = args.category.lower()
+            category = session.query(Categories).filter(func.lower(Categories.name) == category_lower).first()
             if category is None:
                 logger.error(f"Category '{args.category}' does not exist.")
-                return
+                exit(1)
             new_operation = FinOpModel(FinOp(args.name_op, args.date, args.op_type, category, args.value))
             session.add(new_operation)
             session.commit()
