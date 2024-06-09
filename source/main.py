@@ -230,6 +230,7 @@ def main():
                 session.commit()
                 session.close()
                 logger.info('test_db_connection: successful')
+                print("test_db_connection successful")
         except Exception as e:
             logger.error(f'test_db_connection: failed, error: {str(e)}')
 

@@ -10,34 +10,34 @@ LOGGING_CONFIG = {
     'loggers': {
         'test': {
             'handlers': ['console'],
-            'level': 'INFO',
+            'level': 'ERROR',
         },
         'analysis': {
             'handlers': ['console'],
-            'level': 'INFO',
+            'level': 'ERROR',
         },
         'operations': {
             'handlers': ['console'],
-            'level': 'INFO',
+            'level': 'ERROR',
         },
         'database': {
             'handlers': ['console'],
-            'level': 'INFO',
+            'level': 'ERROR',
         },
         'visualization': {
             'handlers': ['console'],
-            'level': 'INFO',
+            'level': 'ERROR',
         },
         '__main__': {
             'handlers': ['console'],
-            'level': 'INFO',
+            'level': 'ERROR',
         },
     },
     'handlers': {
         'console': {
             'class': 'logging.StreamHandler',
             'formatter': 'standard',
-            'level': 'INFO',
+            'level': 'ERROR',
         },
     },
     'formatters': {
