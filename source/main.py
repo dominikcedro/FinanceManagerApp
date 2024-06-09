@@ -92,11 +92,20 @@ def main():
                 logger.info("No operations")
                 exit(1)
             if args.order == 'date':
-                operations = session.query(FinOpModel).order_by(FinOpModel.date).limit(args.limit).all()
+                if args.direction == 'ASC':
+                    operations = session.query(FinOpModel).order_by(FinOpModel.date.asc()).limit(args.limit).all()
+                else:
+                    operations = session.query(FinOpModel).order_by(FinOpModel.date.desc()).limit(args.limit).all()
             elif args.order == 'category':
-                operations = session.query(FinOpModel).order_by(FinOpModel.category).limit(args.limit).all()
+                if args.direction == 'ASC':
+                    operations = session.query(FinOpModel).order_by(FinOpModel.category.asc()).limit(args.limit).all()
+                else:
+                    operations = session.query(FinOpModel).order_by(FinOpModel.category.desc()).limit(args.limit).all()
             elif args.order == 'value':
-                operations = session.query(FinOpModel).order_by(FinOpModel.value).limit(args.limit).all()
+                if args.direction == 'ASC':
+                    operations = session.query(FinOpModel).order_by(FinOpModel.value.asc()).limit(args.limit).all()
+                else:
+                    operations = session.query(FinOpModel).order_by(FinOpModel.value.desc()).limit(args.limit).all()
             print(f'List operations')
             print(f'order: {args.order}, limit: {args.limit}, direction: {args.direction}')
             print('')
@@ -126,7 +135,7 @@ def main():
     elif args.command == 'add_op':
         with session() as session:
             logger.info('Add operation argsparser command running')
-            category = session.query(Categories).filter(Categories.name == args.category).first()
+            category = session.query(Categories).filter(Categories.name.lower() == args.category.lower()).first()
             if category is None:
                 logger.error(f"Category '{args.category}' does not exist.")
                 return
@@ -137,12 +146,15 @@ def main():
 
     elif args.command == 'add_cat':
         with session() as session:
-            name = args.name_cat.lower()
-            description = args.description_cat.lower()
-            category = session.query(Categories).filter(Categories.name == name).first()
+            name = args.name_cat
+            description = args.description_cat
+            category = session.query(Categories).filter(Categories.name == name.lower()).first()
             if category:
                 logger.error(f"Category '{name}' already exists")
-                exit(1)
+                print(f"Category '{name}' already exists")
+                session.commit()
+                session.close()
+                exit(0)
             new_category = Categories(name=name, description=description)
             session.add(new_category)
             session.commit()
@@ -179,7 +191,6 @@ def main():
                 logger.error(f"Category '{args.analyze_category}' does not exist.")
                 exit(1)
             chosen_category = category
-            #check if there are any operations under that category
             analysis = query_by_category(session, chosen_category)
             if not analysis.expenses:
                 logger.info('analyze_all: no expenses present')
@@ -210,8 +221,6 @@ def main():
             except ValueError as e:
                 print('Incorrect month name')
                 exit(1)
-
-
 
     elif args.command == 'test_db_connection':
         # tests the connection by starting session and executing simple SELECT 1 query, returns log if successful.
