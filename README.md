@@ -52,8 +52,17 @@ python -m source.main list_operations --order date --limit 5 --direction ASC
 Output:
 ```sh
 enter output here
-(.venv) PS C:\Users\User\Desktop\FinanceManagerApp> python -m source.main test_db_connection
-test_db_connection successful
+(.venv) PS C:\Users\Domin\Desktop\Programming_in_python\for_the_test\FinanceManagerApp> python -m source.main list_operations                                                       
+List operations
+order: date, limit: 5, direction: ASC
+
+Salary for April - 2024-05-10 12:06:33 - income - Salary - 6000.0
+Gym membership - 2024-05-12 08:00:10 - expense - Sports - 300.0
+Groceries at shop2 - 2024-05-12 10:11:00 - expense - Groceries - 112.08
+Groceries at shop1 - 2024-05-12 10:12:00 - expense - Groceries - 150.0
+Dinner for Two - 2024-05-16 16:11:00 - expense - Takeout - 82.56
+
+
 ```
 
 ### list_categories 

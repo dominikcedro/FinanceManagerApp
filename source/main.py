@@ -150,10 +150,11 @@ def main():
                 exit(0)
             new_operation = FinOpModel(FinOp(args.name_op, args.date, args.op_type, category, args.value))
             session.add(new_operation)
+
+            print("Added new operation: ")
+            print(f" {args.name_op} - {args.date} - {args.op_type} - {category} - {args.value}")
             session.commit()
             session.close()
-            print("Added new operation: ")
-            print(f" {args.name_op} {args.date} {args.op_type} {category} {args.value}")
 
     elif args.command == 'add_cat':
         with session() as session:
@@ -167,10 +168,11 @@ def main():
                 session.close()
             new_category = Categories(name=name, description=description)
             session.add(new_category)
+            print("Added new category: ")
+            print(f" {args.name_cat} - {args.description_cat}")
             session.commit()
             session.close()
-            print("Added new category: ")
-            print(f" {args.name_cat} {args.description_cat}")
+
 
 
     elif args.command == 'analyze_all':
