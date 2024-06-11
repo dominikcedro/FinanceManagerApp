@@ -169,7 +169,7 @@ def main():
             new_category = Categories(name=name, description=description)
             session.add(new_category)
             print("Added new category: ")
-            print(f" {args.name_cat} - {args.description_cat}")
+            print(f"{args.name_cat} - {args.description_cat}")
             session.commit()
             session.close()
 
@@ -190,10 +190,11 @@ def main():
             else:
                 average_income = analysis.average_income()
             logger.info('Total analysis successful')
-            print(f'Total of all expenses: {analysis.total_expenses()}')
-            print(f'average of all expenses: {average_expense}')
-            print(f'total of all incomes: {analysis.total_income()}')
-            print(f'average of all incomes: {average_income}')
+            print("Analyze_all results: ")
+            print(f'Total of all expenses: {float(analysis.total_expenses())}')
+            print(f'Average of all expenses: {average_expense}')
+            print(f'Total of all incomes: {analysis.total_income()}')
+            print(f'Average of all incomes: {average_income}')
             print('')
             session.commit()
             session.close()
@@ -207,24 +208,29 @@ def main():
                 print(f"Category '{args.analyze_category}' does not exist.")
                 session.commit()
                 session.close()
-            chosen_category = category
+                exit(0)
+            chosen_category = category.name
             analysis = query_by_category(session, chosen_category)
+            print("Analyze by category results: ")
+
             if not analysis.expenses:
                 logger.info('analyze_all: no expenses present')
                 average_expense = 0
             else:
-                analysis.average_expense_category(chosen_category)
+                average_expense = analysis.average_expense_category(chosen_category)
             if not analysis.incomes:
                 logger.info('analyze_all: no incomes present')
                 average_income = 0
             else:
                 average_income = analysis.average_income_category(chosen_category)
+            # average_income = analysis.average_income_category(chosen_category)
+            # average_expense = analysis.average_expense_category(chosen_category)
 
             print(f'total of all expenses for category {chosen_category}:'
-                  f' {analysis.total_expense_category(chosen_category)}')
-            print(f'average of all expenses {chosen_category}: {average_expense}')
-            print(f'total of all incomes {chosen_category}: {analysis.total_income_category(chosen_category)}')
-            print(f'average of all incomes {chosen_category}: {average_income}')
+                  f' {float(analysis.total_expense_category(chosen_category))}')
+            print(f'average of all expenses {chosen_category}: {float(average_expense)}')
+            print(f'total of all incomes {chosen_category}: {float(analysis.total_income_category(chosen_category))}')
+            print(f'average of all incomes {chosen_category}: {float(average_income)}')
             print('')
             session.commit()
             session.close()

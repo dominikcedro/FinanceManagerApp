@@ -54,6 +54,7 @@ class Analysis:
     def total_income_category(self, category):
         sum = 0
         for income in self.incomes:
+
             if income.category == category:
                 sum += income.value
         return sum
@@ -85,7 +86,15 @@ class Analysis:
         return round(self.total_expenses() / len(self.expenses),2)
 
     def average_expense_category(self, category):
-        return self.total_expense_category(category) / len(self.expenses)
+        sum = 0
+        for expense in self.expenses:
+            if expense.category == category:
+                sum += 1
+        return self.total_expense_category(category) / sum
 
     def average_income_category(self, category):
-        return self.total_income_category(category) / len(self.incomes)
+        sum = 0
+        for expense in self.expenses:
+            if expense.category == category:
+                sum += 1
+        return self.total_income_category(category) / sum

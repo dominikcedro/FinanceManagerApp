@@ -14,7 +14,7 @@ LOGGING_CONFIG = {
         },
         'analysis': {
             'handlers': ['console'],
-            'level': 'ERROR',
+            'level': 'DEBUG',
         },
         'operations': {
             'handlers': ['console'],
@@ -30,14 +30,14 @@ LOGGING_CONFIG = {
         },
         '__main__': {
             'handlers': ['console'],
-            'level': 'ERROR',
+            'level': 'DEBUG',
         },
     },
     'handlers': {
         'console': {
             'class': 'logging.StreamHandler',
             'formatter': 'standard',
-            'level': 'ERROR',
+            'level': 'DEBUG',
         },
     },
     'formatters': {
