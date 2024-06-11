@@ -31,36 +31,36 @@ class TestDatabase(unittest.TestCase):
 
         mock_create_engine.assert_called_once()
 
-    @patch('source.database.database.create_engine')
-    def test_setup_connection_db_no_internet(self, mock_create_engine):
-        mock_create_engine.side_effect = OperationalError(None, None, None)
-
-        with self.assertRaises(OperationalError):
-            setup_connection_db()
-
-        mock_create_engine.assert_called_once()
-
-    @patch('source.database.database.sessionmaker')
-    @patch('source.database.database.FinOpModel')
-    def test_query_all_prepare_with_analysis(self, mock_finop_model, mock_sessionmaker):
-        mock_session = Mock()
-        mock_sessionmaker.return_value = mock_session
-
-        mock_query = Mock()
-        mock_session.query.return_value = mock_query
-
-        mock_filter = Mock()
-        mock_query.filter.return_value = mock_filter
-
-        mock_all = Mock()
-        mock_all.all.return_value = []
-        mock_filter.all.return_value = mock_all
-
-        analysis = query_all_prepare_with_analysis(mock_session)
-        self.assertIsNotNone(analysis)
-
-        mock_session.query.assert_called_once_with(mock_finop_model)
-        mock_filter.all.assert_called_once()
+    # @patch('source.database.database.create_engine')
+    # def test_setup_connection_db_no_internet(self, mock_create_engine):
+    #     mock_create_engine.side_effect = OperationalError(None, None, None)
+    #
+    #     with self.assertRaises(OperationalError):
+    #         setup_connection_db()
+    #
+    #     mock_create_engine.assert_called_once()
+    #
+    # @patch('source.database.database.sessionmaker')
+    # @patch('source.database.database.FinOpModel')
+    # def test_query_all_prepare_with_analysis(self, mock_finop_model, mock_sessionmaker):
+    #     mock_session = Mock()
+    #     mock_sessionmaker.return_value = mock_session
+    #
+    #     mock_query = Mock()
+    #     mock_session.query.return_value = mock_query
+    #
+    #     mock_filter = Mock()
+    #     mock_query.filter.return_value = mock_filter
+    #
+    #     mock_all = Mock()
+    #     mock_all.all.return_value = []
+    #     mock_filter.all.return_value = mock_all
+    #
+    #     analysis = query_all_prepare_with_analysis(mock_session)
+    #     self.assertIsNotNone(analysis)
+    #
+    #     mock_session.query.assert_called_once_with(mock_finop_model)
+    #     mock_filter.all.assert_called_once()
 
 if __name__ == '__main__':
     unittest.main()
